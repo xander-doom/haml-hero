@@ -1,6 +1,6 @@
 {
-  "name": "haml-hero---highlighting",
-  "displayName": "HAML Hero - Highlighting",
+  "name": "haml-hero",
+  "displayName": "HAML Hero",
   "description": "Comprehensive syntax highlighting for HAML, including multi-line, code blocks, and complex indentation.",
   "version": "0.0.1",
   "publisher": "haml-hero",
