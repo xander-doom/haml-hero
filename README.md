@@ -1,65 +1,124 @@
-# haml-hero---highlighting README
+# HAML Hero
 
-This is the README for your extension "haml-hero---highlighting". After writing up a brief description, we recommend including the following sections.
+Comprehensive HAML support for Visual Studio Code with advanced syntax highlighting and auto-formatting capabilities.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- **Enhanced Syntax Highlighting**: Comprehensive syntax highlighting for HAML, including multi-line, code blocks, and complex indentation
+- **Auto-Formatting**: Format HAML files on save using `haml-lint --auto-correct` or `--auto-correct-all`
+- **Real-time Diagnostics**: Live linting feedback with warnings and errors as you type
+- **Highly Configurable**: Customize linter path, formatter mode, and additional arguments
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+For auto-formatting functionality, you need to install [haml-lint](https://github.com/sds/haml-lint):
+
+### Project-Level Installation (Recommended)
+
+Add to your `Gemfile`:
+
+```ruby
+group :development do
+  gem 'haml_lint', require: false
+end
+```
+
+Then run:
+
+```bash
+bundle install
+```
+
+### Global Installation
+
+A global installation will be pinned to a specific version of Ruby
+
+```bash
+gem install haml_lint
+```
+
+If using project-level installation, you may need to configure the linter path (see Extension Settings below) or ensure `bundle exec haml-lint` is accessible in your PATH.
+
+## VS Code Settings
+
+Auto-formatting is enabled under default vscode settings, but if you have another linter installed (like Prettier) you may need to add these settings to your [settings.json file](https://code.visualstudio.com/docs/configure/settings#_user-settings:~:text=Select%20the%20Preferences%3A%20Open%20User%20Settings%20%28JSON%29%20command%20in%20the%20Command%20Palette) to enable HAML formatting.
+
+```json
+{
+  "[haml]": {
+    "editor.defaultFormatter": "haml-hero.haml-hero---highlighting",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+  }
+}
+```
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+### Core Settings
+
+- `hamlHero.enableFormatting`: Enable automatic formatting with haml-lint (default: `true`)
+- `hamlHero.enableDiagnostics`: Enable real-time linting diagnostics (default: `true`)
+
+### Linter Configuration
+
+- `hamlHero.linterPath`: Full path to the haml-lint executable (default: `"haml-lint"`)
+  - For global installation: leave as `"haml-lint"`
+  - For Bundler: use `"bundle exec haml-lint"` or full path to bundle
+- `hamlHero.configPath`: Path to a custom .haml-lint.yml config file
+  - If not specified, checks workspace root for `.haml-lint.yml`, then uses extension's default config (which disables LineLength linting because I don't agree with their default of 80 characters)
+  - Supports `~` for home directory and relative paths from workspace root
+  - Example: `"~/.haml-lint.yml"` or `"config/.haml-lint.yml"`
+
+### Formatter Settings
+
+- `hamlHero.formatterMode`: Determines which auto-corrections to apply (default: `"safe"`)
+  - `"safe"`: Only apply safe auto-corrections (`--auto-correct`)
+  - `"all"`: Apply all auto-corrections, including potentially unsafe ones (`--auto-correct-all`)
+- `hamlHero.additionalFormatterArguments`: Additional arguments to pass to haml-lint when formatting (default: `""`)
+- `hamlHero.additionalLinterArguments`: Additional arguments to pass to haml-lint when running diagnostics (default: `""`)
+
+### Example Configuration
+
+```json
+{
+  "hamlHero.linterPath": "bundle exec haml-lint",
+  "hamlHero.formatterMode": "all",
+  "hamlHero.configPath": "config/.haml-lint.yml",
+  "hamlHero.additionalFormatterArguments": "--parallel"
+}
+```
+
+### Configuring haml-lint Rules
+
+The extension includes a default `.haml-lint.yml` with sensible defaults (120 character line length). To customize:
+
+**Option 1: Use workspace config** (recommended for team projects)  
+Create `.haml-lint.yml` in your project root. This will automatically be used.
+
+**Option 2: Use custom config location**  
+Set `hamlHero.configPath` to point to your config file.
+
+**Option 3: Rely on extension defaults**  
+The extension's bundled config will be used if no workspace config exists.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+None at this time. Please report issues on the [GitHub repository](https://github.com/yourusername/haml-hero).
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
+Initial release:
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+- Comprehensive HAML syntax highlighting
+- Auto-formatting with haml-lint integration (safe and all modes)
+- Real-time diagnostics with haml-lint
+- Configurable linter and formatter settings
 
 ---
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**

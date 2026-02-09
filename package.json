@@ -3,23 +3,100 @@
   "displayName": "HAML Hero - Highlighting",
   "description": "Comprehensive syntax highlighting for HAML, including multi-line, code blocks, and complex indentation.",
   "version": "0.0.1",
+  "publisher": "haml-hero",
   "engines": {
-    "vscode": "^1.109.0"
+    "vscode": "^1.80.0"
   },
   "categories": [
-    "Programming Languages"
+    "Programming Languages",
+    "Formatters"
   ],
+  "main": "./out/extension.js",
   "contributes": {
-    "languages": [{
-      "id": "haml",
-      "aliases": ["HAML", "haml"],
-      "extensions": [".haml"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "haml",
-      "scopeName": "source.haml",
-      "path": "./syntaxes/haml.tmLanguage.json"
-    }]
+    "languages": [
+      {
+        "id": "haml",
+        "aliases": [
+          "HAML",
+          "haml"
+        ],
+        "extensions": [
+          ".haml"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "haml",
+        "scopeName": "source.haml",
+        "path": "./syntaxes/haml.tmLanguage.json"
+      }
+    ],
+    "configurationDefaults": {
+      "[haml]": {
+        "editor.formatOnSave": true
+      }
+    },
+    "configuration": {
+      "title": "HAML Hero",
+      "properties": {
+        "hamlHero.enableDiagnostics": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable real-time linting diagnostics (warnings and errors) from haml-lint"
+        },
+        "hamlHero.enableFormatting": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable formatting with haml-lint (make sure formatOnSave is enabled in editor settings for haml files)"
+        },
+        "hamlHero.linterPath": {
+          "type": "string",
+          "default": "haml-lint",
+          "description": "Path to the haml-lint executable"
+        },
+        "hamlHero.formatterMode": {
+          "type": "string",
+          "enum": ["safe", "all"],
+          "default": "safe",
+          "enumDescriptions": [
+            "Only apply safe auto-corrections (--auto-correct)",
+            "Apply all auto-corrections, including potentially unsafe ones (--auto-correct-all)"
+          ],
+          "description": "Determines which auto-corrections to apply when formatting"
+        },
+        "hamlHero.additionalLinterArguments": {
+          "type": "string",
+          "default": "",
+          "description": "Additional arguments to pass to haml-lint when running diagnostics"
+        },
+        "hamlHero.additionalFormatterArguments": {
+          "type": "string",
+          "default": "",
+          "description": "Additional arguments to pass to haml-lint when formatting"
+        },
+        "hamlHero.configPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a custom .haml-lint.yml config file. If not specified, will check workspace root, then use extension default. Supports ~ for home directory and relative paths from workspace root."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.x",
+    "@types/vscode": "^1.109.0",
+    "@typescript-eslint/eslint-plugin": "^7.x",
+    "@typescript-eslint/parser": "^7.x",
+    "eslint": "^8.x",
+    "typescript": "^5.x"
   }
 }
