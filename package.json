@@ -1,0 +1,25 @@
+{
+  "name": "haml-hero---highlighting",
+  "displayName": "HAML Hero - Highlighting",
+  "description": "Comprehensive syntax highlighting for HAML, including multi-line, code blocks, and complex indentation.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.109.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "haml",
+      "aliases": ["HAML", "haml"],
+      "extensions": [".haml"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "haml",
+      "scopeName": "source.haml",
+      "path": "./syntaxes/haml.tmLanguage.json"
+    }]
+  }
+}
