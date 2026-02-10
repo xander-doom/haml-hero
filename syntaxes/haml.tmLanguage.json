@@ -5,6 +5,9 @@
 	"fileTypes": ["haml"],
 	"patterns": [
 		{
+			"include": "#escaped-line"
+		},
+		{
 			"include": "#haml-comment"
 		},
 		{
@@ -30,11 +33,21 @@
 		}
 	],
 	"repository": {
-		"haml-comment": {
-			"name": "comment.block.haml",
-			"begin": "^(\\s*)(\\/)((?!\\[).*)?\\s*$",
-			"end": "^(?!\\1\\s+|$)",
+		"escaped-line": {
+			"comment": "Backslash escapes the first character, treating line as plain text",
+			"name": "string.unquoted.haml",
+			"match": "^(\\s*)(\\\\)(.*)$",
 			"captures": {
+				"2": {
+					"name": "constant.character.escape.haml"
+				}
+			}
+		},
+		"haml-comment": {
+			"name": "comment.line.haml",
+			"begin": "^(\\s*)(-#)",
+			"end": "^(?!\\1\\s+|$)",
+			"beginCaptures": {
 				"1": {
 					"name": "punctuation.whitespace.comment.leading.haml"
 				},
@@ -46,8 +59,9 @@
 		"html-comment": {
 			"patterns": [
 				{
-					"name": "comment.block.html.haml",
-					"begin": "^(\\s*)(\\/\\[)",
+					"comment": "Conditional comment /[if IE]",
+					"name": "comment.block.html.conditional.haml",
+					"begin": "^(\\s*)(\\/!?\\[)",
 					"end": "^(?!\\1\\s+|$)",
 					"beginCaptures": {
 						"1": {
@@ -59,9 +73,23 @@
 					}
 				},
 				{
+					"comment": "Multi-line HTML comment",
 					"name": "comment.block.html.haml",
-					"begin": "^(\\s*)(\\/)((?!\\s*$))",
-					"end": "$",
+					"begin": "^(\\s*)(\\/)(\\s*)$",
+					"end": "^(?!\\1\\s+|$)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.whitespace.comment.leading.haml"
+						},
+						"2": {
+							"name": "punctuation.definition.comment.haml"
+						}
+					}
+				},
+				{
+					"comment": "Single-line HTML comment",
+					"name": "comment.block.html.haml",
+					"match": "^(\\s*)(\\/)(\\s+.*)$",
 					"captures": {
 						"1": {
 							"name": "punctuation.whitespace.comment.leading.haml"
@@ -94,6 +122,9 @@
 					"include": "#filter-javascript"
 				},
 				{
+					"include": "#filter-coffee"
+				},
+				{
 					"include": "#filter-css"
 				},
 				{
@@ -101,6 +132,9 @@
 				},
 				{
 					"include": "#filter-ruby"
+				},
+				{
+					"include": "#filter-erb"
 				},
 				{
 					"include": "#filter-markdown"
@@ -124,6 +158,20 @@
 				}
 			]
 		},
+		"filter-coffee": {
+			"begin": "^(\\s*)(:coffee|:coffeescript)\\s*$",
+			"end": "^(?!\\1\\s+|$)",
+			"beginCaptures": {
+				"2": {
+					"name": "entity.name.namespace.haml"
+				}
+			},
+			"patterns": [
+				{
+					"include": "source.coffee"
+				}
+			]
+		},
 		"filter-css": {
 			"begin": "^(\\s*)(:css)\\s*$",
 			"end": "^(?!\\1\\s+|$)",
@@ -135,6 +183,20 @@
 			"patterns": [
 				{
 					"include": "source.css"
+				}
+			]
+		},
+		"filter-erb": {
+			"begin": "^(\\s*)(:erb)\\s*$",
+			"end": "^(?!\\1\\s+|$)",
+			"beginCaptures": {
+				"2": {
+					"name": "entity.name.namespace.haml"
+				}
+			},
+			"patterns": [
+				{
+					"include": "text.html.erb"
 				}
 			]
 		},
@@ -275,7 +337,32 @@
 				},
 				{
 					"match": "#[\\w-]+",
-					"name": "entity.name.class.haml"
+					"name": "entity.other.attribute-name.id.haml"
+				},
+				{
+					"comment": "Object reference [@user]",
+					"begin": "\\[",
+					"end": "\\]",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.section.object-reference.begin.haml"
+						}
+					},
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.section.object-reference.end.haml"
+						}
+					},
+					"patterns": [
+						{
+							"include": "source.ruby"
+						}
+					]
+				},
+				{
+					"comment": "Void tag marker, whitespace modifiers",
+					"match": "[/<>]+",
+					"name": "punctuation.definition.tag.haml"
 				},
 				{
 					"include": "#element-modifiers"
