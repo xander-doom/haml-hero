@@ -193,7 +193,7 @@
 			]
 		},
 		"script": {
-			"begin": "^(\\s*)(=|-)([=~])?([<>~])?\\s*",
+			"begin": "^(\\s*)([!&]?=|~|-)\\s*",
 			"end": "^(?!\\1\\s)",
 			"beginCaptures": {
 				"1": {
@@ -201,12 +201,6 @@
 				},
 				"2": {
 					"name": "punctuation.definition.script.haml"
-				},
-				"3": {
-					"name": "punctuation.definition.script.modifier.haml"
-				},
-				"4": {
-					"name": "punctuation.definition.script.whitespace.haml"
 				}
 			},
 			"patterns": [
