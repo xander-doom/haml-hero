@@ -51,13 +51,27 @@ export async function formatHamlDocument(
 
     return null;
   } catch (error: any) {
-    const message = error.message || String(error);
-    if (message.includes("not found") || message.includes("ENOENT") || error.code === 127) {
+    const errorMessage = error.message || String(error);
+    if (errorMessage.includes("command not found") || 
+        errorMessage.includes("ENOENT") ||
+        errorMessage.includes("not found") ||
+        error.code === "ENOENT" ||
+        error.code === 127) {
       vscode.window.showErrorMessage(
-        "HAML Hero: haml-lint not found. Install with: gem install haml_lint"
+        `haml-lint not found. Please install it with 'gem install haml_lint' or configure the path in settings (hamlHero.linterPath).`
+      );
+    } else if (errorMessage.includes("No version is set for command") || 
+               errorMessage.includes("tool-versions") ||
+               errorMessage.includes("ruby-version")) {
+      vscode.window.showErrorMessage(
+        `haml-lint requires a Ruby version to be set. Please configure your Ruby version manager (asdf, rbenv, etc.) for this project.`
+      );
+    } else if (errorMessage.includes("Gemfile") || errorMessage.includes("bundle")) {
+      vscode.window.showErrorMessage(
+        `haml-lint error: ${errorMessage}. Try running 'bundle install' in your project.`
       );
     } else {
-      vscode.window.showErrorMessage(`HAML Hero: Formatting failed: ${message}`);
+      vscode.window.showErrorMessage(`HAML Hero: Formatting failed: ${errorMessage}`);
     }
     return null;
   }
