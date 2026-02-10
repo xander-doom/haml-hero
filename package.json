@@ -2,16 +2,31 @@
   "name": "haml-hero",
   "displayName": "HAML Hero",
   "description": "Comprehensive HAML support with advanced syntax highlighting, linting, and formatting powered by haml-lint",
-  "version": "0.0.1",
-  "publisher": "haml-hero",
+  "version": "0.1.0",
+  "publisher": "XanderDoom",
+  "license": "MIT",
   "engines": {
-    "vscode": "^1.80.0"
+    "vscode": "^1.109.0"
+  },
+  "keywords": [
+    "haml",
+    "haml-lint",
+    "formatting",
+    "linting",
+    "syntax"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xander-doom/haml-hero"
   },
   "categories": [
     "Programming Languages",
     "Formatters"
   ],
   "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:haml"
+  ],
   "contributes": {
     "languages": [
       {
@@ -58,7 +73,10 @@
         },
         "hamlHero.formatterMode": {
           "type": "string",
-          "enum": ["safe", "all"],
+          "enum": [
+            "safe",
+            "all"
+          ],
           "default": "safe",
           "enumDescriptions": [
             "Only apply safe auto-corrections (--auto-correct)",
