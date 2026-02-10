@@ -1,0 +1,84 @@
+-# Testing edge cases and special scenarios
+
+-# Empty elements
+%div
+%br/
+%hr/
+%img/
+
+-# Unicode and special characters
+%p Hello! 你好! مرحبا! Привет!
+%p Symbols: © ® ™ € £ ¥
+
+-# Multiple classes with hyphens and underscores
+.class-with-hyphens.class_with_underscores.MixedCase123
+
+-# Namespace tags (XML/SVG)
+%svg:svg{ xmlns: 'http://www.w3.org/2000/svg' }
+  %svg:circle{ cx: 50, cy: 50, r: 40 }
+
+%custom:element.my-class
+%data:component
+
+-# Dynamic tag names (not standard but sometimes used)
+%div{ class: dynamic_class, id: dynamic_id }
+
+-# Escaping special characters
+%p Use \#{this} to prevent interpolation
+%p= "String with \#{escaped} interpolation"
+
+-# Very long lines
+%div.very-long-class-name-that-goes-on-and-on-and-on.another-class.yet-another-class.and-one-more-class{ id: 'very-long-id-that-continues', data: { attribute: 'value', another: 'value', yet_another: 'value' } }
+
+-# Nested structures
+%table.table
+  %thead
+    %tr
+      %th Column 1
+      %th Column 2
+  %tbody
+    - (1..3).each do |i|
+      %tr
+        %td Cell #{i}-1
+        %td Cell #{i}-2
+
+-# Comments in various positions
+-# Comment before tag
+%div -# This won't work (comment must be on own line)
+  -# Comment inside tag
+  Content
+-# Comment after content
+
+-# Whitespace preservation
+%pre
+  This is preformatted
+    text with    spaces
+      and indentation
+
+-# Empty lines and spacing
+%div
+
+  %p Content after empty line
+
+-# Script with no space (edge case)
+=-@variable
+-@items.each{|i|puts i}
+
+-# Combining all modifiers
+%div<>~/ All modifiers at once
+
+-# Conditional attributes
+%button{ disabled: should_disable?, class: user_class || 'default' }
+
+-# Array to classes conversion
+%div{ class: ['class1', 'class2', nil, false, 'class3'].compact }
+
+-# Haml comments in various contexts
+%div
+  -# Comment
+  -# Another comment
+  
+  -#
+    Multi-line comment
+    that spans several lines
+    and has indented content

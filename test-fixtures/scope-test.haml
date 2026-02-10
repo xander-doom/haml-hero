@@ -1,0 +1,57 @@
+-# Basic tag
+%div
+# <- punctuation.definition.tag.haml
+#^^^ entity.name.tag.haml
+
+-# Tag with class
+%div.container
+#   ^ entity.other.attribute-name.class.haml
+
+-# Tag with ID
+%div#main
+#   ^ entity.other.attribute-name.id.haml
+
+-# Implicit div with class
+.container
+# <- punctuation.definition.tag.class-or-id.haml
+
+-# Implicit div with ID
+#main-content
+
+-# Ruby output
+= @user.name
+# <- punctuation.definition.script.output.haml
+
+-# Ruby silent script
+- @items = []
+# <- punctuation.definition.script.silent.haml
+
+-# HAML comment
+-# This is a comment
+# <- comment.line.haml
+
+-# HTML comment
+/ This is an HTML comment
+# <- punctuation.definition.comment.haml
+
+-# Doctype
+!!! 5
+# <- keyword.other.doctype.haml
+
+-# Hash attributes
+%div{ class: 'test' }
+#   ^ punctuation.section.scope.begin.haml
+
+-# HTML attributes
+%div(class="test")
+#   ^ punctuation.section.scope.begin.haml
+
+-# Filter
+:javascript
+# <- punctuation.definition.filter.haml
+#^^^^^^^^^ entity.name.filter.haml
+  console.log('test');
+
+-# Interpolation
+%p Hello #{name}
+#       ^^ punctuation.definition.interpolation.begin.haml

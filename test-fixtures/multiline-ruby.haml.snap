@@ -1,0 +1,124 @@
+>-# Test multi-line Ruby code highlighting
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>
+>.container
+#^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  -# Multi-line silent script
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  - result = some_method(
+#^^ text.haml punctuation.whitespace.script.leading.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>      arg1: 'value1',
+#^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>      arg2: 'value2',
+#^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>      arg3: {
+#^^^^^^^^^^^^^^ text.haml
+>        nested: true,
+#^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>        data: [1, 2, 3]
+#^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>      }
+#^^^^^^^^ text.haml
+>    )
+#^^^^^^ text.haml
+>  
+>  -# Multi-line output script
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  = f.input :pivot_row_question_map_ids,
+#^^ text.haml punctuation.whitespace.script.leading.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>            collection: pivot_row_options,
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>            selected: query.pivot_row_question_map_ids,
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>            include_hidden: false,
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>            input_html: { 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>              multiple: true, 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>              data: { 
+#^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                controller: 'tom-select', 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                tom_select_checkboxes_value: false, 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                tom_select_options_value: { 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                  maxItems: 3, 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                  plugins: { 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                    remove_button: true, 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                    clear_button: { 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                      title: 'Clear all' 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                    } 
+#^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                  } 
+#^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                }.to_json, 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                tom_select_render_value: render_config.to_json, 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>                query_builder_target: 'pivotRowSelect' 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>              } 
+#^^^^^^^^^^^^^^^^^ text.haml
+>            },
+#^^^^^^^^^^^^^^^ text.haml
+>            label: 'Pivot Table Rows (up to 3)',
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>            required: true
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>  
+>  -# Single line for comparison
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  = simple_value
+#^^ text.haml punctuation.whitespace.script.leading.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^^^^^^^^^^ text.haml
+>  
+>  -# Implicit divs with multiple classes
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  .d-flex.justify-content-between.align-items-center
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#         ^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                                 ^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>    .item.active
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#         ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>      %span Content
+#^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#      ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#       ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#           ^^^^^^^^ text.haml meta.tag.haml
+>    #unique-id.another-class
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^^^^^^^^^^ text.haml meta.tag.haml entity.other.attribute-name.id.haml
+#              ^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>      %span More content
+#^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#      ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#       ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#           ^^^^^^^^^^^^^ text.haml meta.tag.haml
+>

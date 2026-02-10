@@ -1,0 +1,207 @@
+>-# Testing complex attribute combinations
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>
+>%html
+#^ text.haml meta.tag.haml punctuation.definition.tag.haml
+# ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  %body
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>    -# Classes and IDs in various orders
+#^^^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#    ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>    .class1.class2.class3#my-id
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#           ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                  ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                         ^^^^^^ text.haml meta.tag.haml entity.other.attribute-name.id.haml
+>    #my-id.class1.class2
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^^^^^^ text.haml meta.tag.haml entity.other.attribute-name.id.haml
+#          ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                 ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>    %div.class1#id1.class2#id2
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^^ text.haml meta.tag.haml entity.name.tag.haml
+#        ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#               ^^^^ text.haml meta.tag.haml entity.other.attribute-name.id.haml
+#                   ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                          ^^^^ text.haml meta.tag.haml entity.other.attribute-name.id.haml
+>    
+>    -# Hash attributes with Ruby code
+#^^^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#    ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>    %input{ type: 'text', 
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#          ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#           ^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+>            name: 'username',
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+>            value: @user.name,
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+>            class: calculate_classes(@user),
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+>            data: { 
+#^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+#                  ^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#                   ^^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml
+>              user_id: @user.id,
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml
+>              role: @user.role,
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml
+>              active: @user.active?
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml
+>            } }
+#^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml
+#            ^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+#             ^ text.haml meta.tag.haml meta.section.attributes.haml
+#              ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+>    
+>    -# HTML-style attributes
+#^^^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#    ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#      ^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>    %img(src="/images/logo.png" alt="Logo" width=100 height=50)
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^^ text.haml meta.tag.haml entity.name.tag.haml
+#        ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.section.scope.begin.haml
+#         ^^^ text.haml meta.tag.haml meta.section.attributes.html.haml entity.other.attribute-name.html.haml
+#            ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.separator.key-value.haml
+#             ^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.html.haml
+#                                ^^^ text.haml meta.tag.haml meta.section.attributes.html.haml entity.other.attribute-name.html.haml
+#                                   ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.separator.key-value.haml
+#                                    ^^^^^^^ text.haml meta.tag.haml meta.section.attributes.html.haml
+#                                           ^^^^^ text.haml meta.tag.haml meta.section.attributes.html.haml entity.other.attribute-name.html.haml
+#                                                ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.separator.key-value.haml
+#                                                 ^^^^ text.haml meta.tag.haml meta.section.attributes.html.haml
+#                                                     ^^^^^^ text.haml meta.tag.haml meta.section.attributes.html.haml entity.other.attribute-name.html.haml
+#                                                           ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.separator.key-value.haml
+#                                                            ^^ text.haml meta.tag.haml meta.section.attributes.html.haml
+#                                                              ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.section.scope.end.haml
+>    
+>    -# Mixed attribute styles
+#^^^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#    ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#      ^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>    %div.my-class{ id: 'dynamic-id', data: { value: 123 } }(title="Tooltip")
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^^ text.haml meta.tag.haml entity.name.tag.haml
+#        ^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                 ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+#                                           ^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#                                            ^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml
+#                                                        ^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+#                                                         ^ text.haml meta.tag.haml meta.section.attributes.haml
+#                                                          ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+#                                                           ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.section.scope.begin.haml
+#                                                            ^^^^^ text.haml meta.tag.haml meta.section.attributes.html.haml entity.other.attribute-name.html.haml
+#                                                                 ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.separator.key-value.haml
+#                                                                  ^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.html.haml
+#                                                                           ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.section.scope.end.haml
+>    
+>    -# Object reference
+#^^^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#    ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#      ^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>    %div[@user]
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^^ text.haml meta.tag.haml entity.name.tag.haml
+#        ^^^^^^^ text.haml meta.tag.haml
+>    %div[@user, :greeting]
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^^ text.haml meta.tag.haml entity.name.tag.haml
+#        ^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>    
+>    -# Attributes with multiline continuation
+#^^^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#    ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>    %a{ href: long_url_helper(
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^ text.haml meta.tag.haml entity.name.tag.haml
+#      ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#       ^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+>          param1: 'value1',
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+>          param2: 'value2',
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+>          param3: 'value3'
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+>        ),
+#^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+>        class: 'btn btn-primary',
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+>        data: {
+#^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+#              ^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+>          toggle: 'modal',
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml
+>          target: '#myModal'
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml
+>        } }
+#^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml
+#        ^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+#         ^ text.haml meta.tag.haml meta.section.attributes.haml
+#          ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+>      Click me
+#^^^^^^^^^^^^^^^ text.haml
+>    
+>    -# Boolean attributes
+#^^^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#    ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#      ^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>    %input{ type: 'checkbox', checked: true }
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#          ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+#                                            ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+>    %input{ type: 'checkbox', checked: false }
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#          ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+#                                             ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+>    %button{ disabled: disabled? }
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#           ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#            ^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+#                                 ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+>    
+>    -# Attributes with string interpolation
+#^^^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#    ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>    %div{ class: "user-#{@user.id}", data: { name: "#{@user.first_name} #{@user.last_name}" } }
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^^ text.haml meta.tag.haml entity.name.tag.haml
+#        ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#         ^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+#                                 ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+#                                  ^^^^^^^^^ text.haml meta.tag.haml
+#                                           ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+#                                                                      ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+#                                                                       ^^^^^^^^ text.haml meta.tag.haml
+#                                                                               ^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                                                                                         ^^^^^^ text.haml meta.tag.haml
+>

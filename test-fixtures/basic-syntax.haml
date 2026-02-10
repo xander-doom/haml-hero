@@ -1,0 +1,79 @@
+-# HAML Comment
+-# This is a basic HAML syntax test file
+
+!!! 5
+%html
+  %head
+    %title My HAML Page
+    %meta{ charset: 'utf-8' }
+    %link{ rel: 'stylesheet', href: '/styles.css' }
+  
+  %body
+    -# Navigation section
+    %nav#main-navigation.navbar.navbar-expand-lg
+      %ul.nav-list
+        %li.nav-item
+          %a{ href: '/' } Home
+        %li.nav-item.active
+          %a.nav-link{ href: '/about' } About
+    
+    -# Main content with various features
+    %main.container
+      %h1.page-title= page_title
+      %p.description This is plain text with #{interpolated_value}
+      
+      -# Tags with classes and IDs
+      %article#main-article.content.highlighted
+        %h2 Article Title
+        %p
+          This is a paragraph with
+          = link_to 'a link', some_path
+        
+      -# Implicit div
+      .alert.alert-info
+        Important message here
+      
+      #user-profile.card
+        .card-header
+          %h3= @user.name
+        .card-body
+          %p Email: #{@user.email}
+      
+      -# Various attribute syntaxes
+      %div{ class: 'hash-attributes', data: { value: 123 } }
+      %div(class="html-attributes" data-id="456")
+      %div[user]
+      
+      -# Ruby script blocks
+      - if logged_in?
+        %p Welcome back!
+      - else
+        %p Please log in
+      
+      - @items.each do |item|
+        .item{ id: "item-#{item.id}" }
+          %h4= item.title
+          %p= item.description
+      
+      -# Output with modifiers
+      = render 'shared/header'
+      == Escaped output: #{value}
+      =~ preserve_whitespace(content)
+      
+      -# Whitespace modifiers
+      %tag< Inner whitespace removed
+      %tag> Outer whitespace removed
+      %tag~ Preserve whitespace
+      %tag/ Self-closing tag
+      
+      -# Multi-line with pipe
+      %p
+        This is a multi-line |
+        text that continues |
+        across several lines |
+      
+    / HTML comment
+    / This will appear in the HTML output
+    
+    %footer
+      %p &copy; 2024 My Site

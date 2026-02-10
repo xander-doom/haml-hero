@@ -1,0 +1,97 @@
+>-# Testing various filters
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>
+>%html
+#^ text.haml meta.tag.haml punctuation.definition.tag.haml
+# ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  %head
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>    :css
+#^^^^^^^^^ text.haml
+>      body {
+#^^^^^^^^^^^^^ text.haml
+>        font-family: Arial, sans-serif;
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>        margin: 0;
+#^^^^^^^^^^^^^^^^^^^ text.haml
+>        padding: 20px;
+#^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>      }
+#^^^^^^^^ text.haml
+>      
+>      .container {
+#^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#      ^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                ^ text.haml meta.tag.haml
+#                 ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+>        max-width: 1200px;
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+>        margin: 0 auto;
+#^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+>      }
+#^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+#      ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+>    
+>    :javascript
+#^^^^^^^^^^^^^^^^ text.haml
+>      function greet(name) {
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>        console.log('Hello, ' + name);
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>      }
+#^^^^^^^^ text.haml
+>      
+>      document.addEventListener('DOMContentLoaded', function() {
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>        greet('World');
+#^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>      });
+#^^^^^^^^^^ text.haml
+>  
+>  %body
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>    .container
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>      :markdown
+#^^^^^^^^^^^^^^^^ text.haml
+>        # Welcome to HAML
+#^^^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#        ^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>        
+>        This is **Markdown** content embedded in HAML.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>        
+>        - Item 1
+#^^^^^^^^ text.haml punctuation.whitespace.script.leading.haml
+#        ^ text.haml punctuation.definition.script.haml
+#         ^ text.haml
+#          ^^^^^^^ text.haml
+>        - Item 2
+#^^^^^^^^ text.haml punctuation.whitespace.script.leading.haml
+#        ^ text.haml punctuation.definition.script.haml
+#         ^ text.haml
+#          ^^^^^^^ text.haml
+>        - Item 3
+#^^^^^^^^ text.haml punctuation.whitespace.script.leading.haml
+#        ^ text.haml punctuation.definition.script.haml
+#         ^ text.haml
+#          ^^^^^^^ text.haml
+>
+>      :ruby
+#^^^^^^^^^^^^ text.haml
+>        def helper_method(arg)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>          arg.upcase
+#^^^^^^^^^^^^^^^^^^^^^ text.haml
+>        end
+#^^^^^^^^^^^^ text.haml
+>        
+>        result = helper_method("test")
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>

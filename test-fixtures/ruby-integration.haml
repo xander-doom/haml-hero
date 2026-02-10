@@ -1,0 +1,83 @@
+-# Testing Ruby code integration
+
+- # This is a Ruby comment
+-# This is a HAML comment
+
+- require 'some_library'
+- include SomeModule
+
+- def helper_method(arg)
+-   arg.upcase
+- end
+
+%div
+  -# Control structures
+  - if @user.admin?
+    %p.admin-notice You are an administrator
+  - elsif @user.moderator?
+    %p.mod-notice You are a moderator
+  - else
+    %p.user-notice You are a regular user
+  
+  -# Case statements
+  - case @user.status
+  - when 'active'
+    .badge.badge-success Active
+  - when 'pending'
+    .badge.badge-warning Pending
+  - when 'suspended'
+    .badge.badge-danger Suspended
+  - else
+    .badge.badge-secondary Unknown
+  
+  -# Loops
+  - @posts.each do |post|
+    %article.post{ data: { id: post.id } }
+      %h2= post.title
+      .post-meta
+        %span.author= post.author.name
+        %span.date= post.created_at.strftime('%Y-%m-%d')
+      .post-content
+        = post.body
+  
+  - @users.each_with_index do |user, index|
+    %tr{ class: cycle('odd', 'even') }
+      %td= index + 1
+      %td= user.name
+      %td= user.email
+  
+  -# While loops
+  - counter = 0
+  - while counter < 5
+    %p Count: #{counter}
+    - counter += 1
+  
+  -# Unless statements
+  - unless @errors.empty?
+    .alert.alert-danger
+      %h4 Errors occurred:
+      %ul
+        - @errors.each do |error|
+          %li= error
+  
+  -# Method calls and chaining
+  = @user.posts.published.order(created_at: :desc).limit(10).map(&:title).join(', ')
+  
+  -# Blocks and yields
+  = content_tag :div, class: 'wrapper' do
+    %p Content inside block
+  
+  -# Lambdas and procs
+  - formatter = ->(text) { text.upcase }
+  %p= formatter.call(@user.name)
+  
+  -# Ternary operators
+  %p.status{ class: @user.active? ? 'active' : 'inactive' }
+    = @user.active? ? 'Active User' : 'Inactive User'
+  
+  -# Safe navigation operator
+  %p= @user&.profile&.bio || 'No bio available'
+  
+  -# String interpolation in output
+  %p User #{@user.id} - #{@user.name}
+  %p= "Total: #{@items.count} items"

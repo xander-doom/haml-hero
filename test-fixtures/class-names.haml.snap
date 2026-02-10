@@ -1,0 +1,113 @@
+>-# Test class names with hyphens and multiple chained classes
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>
+>.container
+#^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  -# Multiple classes chained together
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  .card.shadow.mb-3
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#       ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#              ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>    %h3 Card Title
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^ text.haml meta.tag.haml entity.name.tag.haml
+#       ^^^^^^^^^^^ text.haml meta.tag.haml
+>  
+>  -# Classes with hyphens
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  .col-6.offset-3
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#        ^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  .btn-primary.btn-lg
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#              ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  .d-flex.justify-content-between
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#         ^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  
+>  -# Mix of classes and IDs
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  .card.shadow#main-card.mb-4
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#       ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#              ^^^^^^^^^^ text.haml meta.tag.haml entity.other.attribute-name.id.haml
+#                        ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  #user-profile.profile-card.active
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^^^^^^^^^ text.haml meta.tag.haml entity.other.attribute-name.id.haml
+#               ^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                            ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  
+>  -# Bootstrap-style classes
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  .row.g-3
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#      ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  .col-md-6.col-lg-4.col-xl-3
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#           ^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                    ^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  .mt-3.mb-4.ms-2.me-1
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#       ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#            ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                 ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  
+>  -# Complex class names
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  .bg-primary-subtle.text-emphasis-primary
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                    ^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  .user-avatar-container.user-avatar-container--large
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  
+>  -# With explicit tags
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  %div.card.shadow.mb-3
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^^^ text.haml meta.tag.haml entity.name.tag.haml
+#      ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#           ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                  ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  %span.badge.badge-primary.badge-lg
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#       ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#             ^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                           ^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  %button.btn.btn-outline-secondary.btn-sm
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#         ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#             ^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                                   ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>

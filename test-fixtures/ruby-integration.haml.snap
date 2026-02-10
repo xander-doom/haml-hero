@@ -1,0 +1,383 @@
+>-# Testing Ruby code integration
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>
+>- # This is a Ruby comment
+#^ text.haml punctuation.definition.script.haml
+# ^ text.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>-# This is a HAML comment
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>
+>- require 'some_library'
+#^ text.haml punctuation.definition.script.haml
+# ^ text.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>- include SomeModule
+#^ text.haml punctuation.definition.script.haml
+# ^ text.haml
+#  ^^^^^^^^^^^^^^^^^^^ text.haml
+>
+>- def helper_method(arg)
+#^ text.haml punctuation.definition.script.haml
+# ^ text.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>-   arg.upcase
+#^ text.haml punctuation.definition.script.haml
+# ^^^ text.haml
+#    ^^^^^^^^^^^ text.haml
+>- end
+#^ text.haml punctuation.definition.script.haml
+# ^ text.haml
+#  ^^^^ text.haml
+>
+>%div
+#^ text.haml meta.tag.haml punctuation.definition.tag.haml
+# ^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  -# Control structures
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  - if @user.admin?
+#^^ text.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^ text.haml keyword.control.ruby
+#      ^^^^^^^^^^^^^^ text.haml
+>    %p.admin-notice You are an administrator
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^ text.haml meta.tag.haml entity.name.tag.haml
+#      ^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>  - elsif @user.moderator?
+#^^ text.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^^ text.haml keyword.control.ruby
+#         ^^^^^^^^^^^^^^^^^^ text.haml
+>    %p.mod-notice You are a moderator
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^ text.haml meta.tag.haml entity.name.tag.haml
+#      ^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                 ^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>  - else
+#^^ text.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^ text.haml keyword.control.ruby
+>    %p.user-notice You are a regular user
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^ text.haml meta.tag.haml entity.name.tag.haml
+#      ^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                  ^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>  
+>  -# Case statements
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  - case @user.status
+#^^ text.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^ text.haml keyword.control.ruby
+#        ^^^^^^^^^^^^^^ text.haml
+>  - when 'active'
+#^^ text.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^ text.haml keyword.control.ruby
+#        ^^^^^^^^^^ text.haml
+>    .badge.badge-success Active
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#          ^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                        ^^^^^^^ text.haml meta.tag.haml
+>  - when 'pending'
+#^^ text.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^ text.haml keyword.control.ruby
+#        ^^^^^^^^^^^ text.haml
+>    .badge.badge-warning Pending
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#          ^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                        ^^^^^^^^ text.haml meta.tag.haml
+>  - when 'suspended'
+#^^ text.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^ text.haml keyword.control.ruby
+#        ^^^^^^^^^^^^^ text.haml
+>    .badge.badge-danger Suspended
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#          ^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                       ^^^^^^^^^^ text.haml meta.tag.haml
+>  - else
+#^^ text.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^ text.haml keyword.control.ruby
+>    .badge.badge-secondary Unknown
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#          ^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                          ^^^^^^^^ text.haml meta.tag.haml
+>  
+>  -# Loops
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^ text.haml comment.line.haml
+>  - @posts.each do |post|
+#^^ text.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^^^^^^^^^ text.haml
+#                ^^ text.haml keyword.control.ruby
+#                  ^^^^^^^ text.haml
+>    %article.post{ data: { id: post.id } }
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#            ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                 ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#                  ^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+#                         ^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#                          ^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml
+#                                       ^ text.haml meta.tag.haml meta.section.attributes.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+#                                        ^ text.haml meta.tag.haml meta.section.attributes.haml
+#                                         ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+>      %h2= post.title
+#^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#      ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#       ^^ text.haml meta.tag.haml entity.name.tag.haml
+#         ^^^^^^ text.haml meta.tag.haml
+#               ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>      .post-meta
+#^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#      ^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>        %span.author= post.author.name
+#^^^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#        ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#         ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#             ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                    ^^^^^^ text.haml meta.tag.haml
+#                          ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                                 ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>        %span.date= post.created_at.strftime('%Y-%m-%d')
+#^^^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#        ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#         ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#             ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                  ^^^^^^ text.haml meta.tag.haml
+#                        ^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                                   ^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                                            ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.section.scope.begin.haml
+#                                             ^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.html.haml
+#                                                       ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.section.scope.end.haml
+>      .post-content
+#^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#      ^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>        = post.body
+#^^^^^^^^ text.haml punctuation.whitespace.script.leading.haml
+#        ^ text.haml punctuation.definition.script.haml
+#         ^ text.haml
+#          ^^^^^^^^^^ text.haml
+>  
+>  - @users.each_with_index do |user, index|
+#^^ text.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+#                           ^^ text.haml keyword.control.ruby
+#                             ^^^^^^^^^^^^^^ text.haml
+>    %tr{ class: cycle('odd', 'even') }
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^^ text.haml meta.tag.haml entity.name.tag.haml
+#       ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+#                                     ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+>      %td= index + 1
+#^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#      ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#       ^^ text.haml meta.tag.haml entity.name.tag.haml
+#         ^^^^^^^^^^^ text.haml meta.tag.haml
+>      %td= user.name
+#^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#      ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#       ^^ text.haml meta.tag.haml entity.name.tag.haml
+#         ^^^^^^ text.haml meta.tag.haml
+#               ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>      %td= user.email
+#^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#      ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#       ^^ text.haml meta.tag.haml entity.name.tag.haml
+#         ^^^^^^ text.haml meta.tag.haml
+#               ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  
+>  -# While loops
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^ text.haml comment.line.haml
+>  - counter = 0
+#^^ text.haml punctuation.whitespace.script.leading.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^^^^^^^^^ text.haml
+>  - while counter < 5
+#^^ text.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^^ text.haml keyword.control.ruby
+#         ^^^^^^^^^^^^^ text.haml
+>    %p Count: #{counter}
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^ text.haml meta.tag.haml entity.name.tag.haml
+#      ^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>    - counter += 1
+#^^^^ text.haml punctuation.whitespace.script.leading.haml
+#    ^ text.haml punctuation.definition.script.haml
+#     ^ text.haml
+#      ^^^^^^^^^^^^^ text.haml
+>  
+>  -# Unless statements
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  - unless @errors.empty?
+#^^ text.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^^^ text.haml keyword.control.ruby
+#          ^^^^^^^^^^^^^^^^ text.haml
+>    .alert.alert-danger
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#          ^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>      %h4 Errors occurred:
+#^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#      ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#       ^^ text.haml meta.tag.haml entity.name.tag.haml
+#         ^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>      %ul
+#^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#      ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#       ^^ text.haml meta.tag.haml entity.name.tag.haml
+>        - @errors.each do |error|
+#^^^^^^^^ text.haml
+#        ^ text.haml punctuation.definition.script.haml
+#         ^ text.haml
+#          ^^^^^^^^^^^^^ text.haml
+#                       ^^ text.haml keyword.control.ruby
+#                         ^^^^^^^^ text.haml
+>          %li= error
+#^^^^^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#          ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#           ^^ text.haml meta.tag.haml entity.name.tag.haml
+#             ^^^^^^^ text.haml meta.tag.haml
+>  
+>  -# Method calls and chaining
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  = @user.posts.published.order(created_at: :desc).limit(10).map(&:title).join(', ')
+#^^ text.haml punctuation.whitespace.script.leading.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>  
+>  -# Blocks and yields
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  = content_tag :div, class: 'wrapper' do
+#^^ text.haml punctuation.whitespace.script.leading.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+#                                       ^^ text.haml keyword.control.ruby
+>    %p Content inside block
+#^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#     ^ text.haml meta.tag.haml entity.name.tag.haml
+#      ^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>  
+>  -# Lambdas and procs
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  - formatter = ->(text) { text.upcase }
+#^^ text.haml punctuation.whitespace.script.leading.haml
+#  ^ text.haml punctuation.definition.script.haml
+#   ^ text.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>  %p= formatter.call(@user.name)
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^ text.haml meta.tag.haml entity.name.tag.haml
+#    ^^^^^^^^^^^ text.haml meta.tag.haml
+#               ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                    ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.section.scope.begin.haml
+#                     ^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.html.haml
+#                               ^ text.haml meta.tag.haml meta.section.attributes.html.haml punctuation.section.scope.end.haml
+>  
+>  -# Ternary operators
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  %p.status{ class: @user.active? ? 'active' : 'inactive' }
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^ text.haml meta.tag.haml entity.name.tag.haml
+#    ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#           ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.begin.haml
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml meta.section.attributes.haml
+#                                                          ^ text.haml meta.tag.haml meta.section.attributes.haml punctuation.section.scope.end.haml
+>    = @user.active? ? 'Active User' : 'Inactive User'
+#^^^^ text.haml punctuation.whitespace.script.leading.haml
+#    ^ text.haml punctuation.definition.script.haml
+#     ^ text.haml
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>  
+>  -# Safe navigation operator
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  %p= @user&.profile&.bio || 'No bio available'
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^ text.haml meta.tag.haml entity.name.tag.haml
+#    ^^^^^^^^ text.haml meta.tag.haml
+#            ^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                    ^ text.haml meta.tag.haml
+#                     ^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                         ^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>  
+>  -# String interpolation in output
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  %p User #{@user.id} - #{@user.name}
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^ text.haml meta.tag.haml entity.name.tag.haml
+#    ^^^^^^^^^^^^^ text.haml meta.tag.haml
+#                 ^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                    ^^^^^^^^^^^ text.haml meta.tag.haml
+#                               ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                                    ^ text.haml meta.tag.haml
+>  %p= "Total: #{@items.count} items"
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^ text.haml meta.tag.haml entity.name.tag.haml
+#    ^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+#                      ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                            ^^^^^^^^ text.haml meta.tag.haml
+>

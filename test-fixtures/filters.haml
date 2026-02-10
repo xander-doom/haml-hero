@@ -1,0 +1,42 @@
+-# Testing various filters
+
+%html
+  %head
+    :css
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+      
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+    
+    :javascript
+      function greet(name) {
+        console.log('Hello, ' + name);
+      }
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        greet('World');
+      });
+  
+  %body
+    .container
+      :markdown
+        # Welcome to HAML
+        
+        This is **Markdown** content embedded in HAML.
+        
+        - Item 1
+        - Item 2
+        - Item 3
+
+      :ruby
+        def helper_method(arg)
+          arg.upcase
+        end
+        
+        result = helper_method("test")

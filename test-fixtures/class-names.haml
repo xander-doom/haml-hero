@@ -1,0 +1,29 @@
+-# Test class names with hyphens and multiple chained classes
+
+.container
+  -# Multiple classes chained together
+  .card.shadow.mb-3
+    %h3 Card Title
+  
+  -# Classes with hyphens
+  .col-6.offset-3
+  .btn-primary.btn-lg
+  .d-flex.justify-content-between
+  
+  -# Mix of classes and IDs
+  .card.shadow#main-card.mb-4
+  #user-profile.profile-card.active
+  
+  -# Bootstrap-style classes
+  .row.g-3
+  .col-md-6.col-lg-4.col-xl-3
+  .mt-3.mb-4.ms-2.me-1
+  
+  -# Complex class names
+  .bg-primary-subtle.text-emphasis-primary
+  .user-avatar-container.user-avatar-container--large
+  
+  -# With explicit tags
+  %div.card.shadow.mb-3
+  %span.badge.badge-primary.badge-lg
+  %button.btn.btn-outline-secondary.btn-sm

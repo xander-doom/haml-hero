@@ -1,7 +1,7 @@
 {
   "name": "haml-hero",
   "displayName": "HAML Hero",
-  "description": "Comprehensive syntax highlighting for HAML, including multi-line, code blocks, and complex indentation.",
+  "description": "Comprehensive HAML support with advanced syntax highlighting, linting, and formatting powered by haml-lint",
   "version": "0.0.1",
   "publisher": "haml-hero",
   "engines": {
@@ -29,7 +29,7 @@
     "grammars": [
       {
         "language": "haml",
-        "scopeName": "source.haml",
+        "scopeName": "text.haml",
         "path": "./syntaxes/haml.tmLanguage.json"
       }
     ],
@@ -89,7 +89,9 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src --ext ts"
+    "lint": "eslint src --ext ts",
+    "test:grammar": "vscode-tmgrammar-snap -g syntaxes/haml.tmLanguage.json -s text.haml 'test-fixtures/**/*.haml'",
+    "test:grammar:update": "vscode-tmgrammar-snap -g syntaxes/haml.tmLanguage.json -s text.haml -u 'test-fixtures/**/*.haml'"
   },
   "devDependencies": {
     "@types/node": "^20.x",
@@ -97,6 +99,7 @@
     "@typescript-eslint/eslint-plugin": "^7.x",
     "@typescript-eslint/parser": "^7.x",
     "eslint": "^8.x",
-    "typescript": "^5.x"
+    "typescript": "^5.x",
+    "vscode-tmgrammar-test": "^0.1.3"
   }
 }

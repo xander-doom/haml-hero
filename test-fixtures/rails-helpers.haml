@@ -1,0 +1,70 @@
+-# Testing Rails-specific helpers and patterns
+
+= content_for :title do
+  = @page_title
+
+= render 'shared/header'
+
+.container
+  -# Flash messages
+  - flash.each do |type, message|
+    .alert{ class: "alert-#{type}" }
+      = message
+  
+  -# Forms
+  = form_for @user do |f|
+    .form-group
+      = f.label :name
+      = f.text_field :name, class: 'form-control'
+    
+    .form-group
+      = f.label :email
+      = f.email_field :email, class: 'form-control'
+    
+    .form-group
+      = f.label :role
+      = f.select :role, User::ROLES, {}, class: 'form-control'
+    
+    .form-group
+      = f.check_box :active
+      = f.label :active
+    
+    .form-actions
+      = f.submit 'Save', class: 'btn btn-primary'
+      = link_to 'Cancel', users_path, class: 'btn btn-secondary'
+  
+  -# Links and paths
+  = link_to 'Home', root_path
+  = link_to 'User Profile', user_path(@user), class: 'btn btn-link'
+  = link_to 'Edit', edit_user_path(@user), method: :get
+  = link_to 'Delete', user_path(@user), method: :delete, data: { confirm: 'Are you sure?' }
+  
+  -# Images and assets
+  = image_tag 'logo.png', alt: 'Logo', class: 'logo'
+  = javascript_include_tag 'application'
+  = stylesheet_link_tag 'application'
+  
+  -# Partials
+  = render partial: 'user', collection: @users
+  = render partial: 'shared/sidebar', locals: { title: 'Sidebar' }
+  
+  -# Turbo/Stimulus
+  %div{ data: { controller: 'dropdown', action: 'click->dropdown#toggle' } }
+    %button{ data: { dropdown_target: 'button' } } Toggle
+    .dropdown-menu{ data: { dropdown_target: 'menu' } }
+      %a.dropdown-item{ href: '#' } Item 1
+  
+  -# JSON data attributes
+  %div{ data: { user: @user.to_json, config: { theme: 'dark', lang: 'en' }.to_json } }
+  
+  -# Number and time helpers
+  %p= number_to_currency(@product.price)
+  %p= time_ago_in_words(@post.created_at)
+  
+  -# Sanitization and raw output
+  %p= sanitize @user.bio
+  %p= raw @content.html
+  
+= yield :additional_content
+
+= render 'shared/footer'

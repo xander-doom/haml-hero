@@ -1,0 +1,48 @@
+-# Test multi-line Ruby code highlighting
+
+.container
+  -# Multi-line silent script
+  - result = some_method(
+      arg1: 'value1',
+      arg2: 'value2',
+      arg3: {
+        nested: true,
+        data: [1, 2, 3]
+      }
+    )
+  
+  -# Multi-line output script
+  = f.input :pivot_row_question_map_ids,
+            collection: pivot_row_options,
+            selected: query.pivot_row_question_map_ids,
+            include_hidden: false,
+            input_html: { 
+              multiple: true, 
+              data: { 
+                controller: 'tom-select', 
+                tom_select_checkboxes_value: false, 
+                tom_select_options_value: { 
+                  maxItems: 3, 
+                  plugins: { 
+                    remove_button: true, 
+                    clear_button: { 
+                      title: 'Clear all' 
+                    } 
+                  } 
+                }.to_json, 
+                tom_select_render_value: render_config.to_json, 
+                query_builder_target: 'pivotRowSelect' 
+              } 
+            },
+            label: 'Pivot Table Rows (up to 3)',
+            required: true
+  
+  -# Single line for comparison
+  = simple_value
+  
+  -# Implicit divs with multiple classes
+  .d-flex.justify-content-between.align-items-center
+    .item.active
+      %span Content
+    #unique-id.another-class
+      %span More content

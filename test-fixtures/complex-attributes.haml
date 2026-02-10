@@ -1,0 +1,50 @@
+-# Testing complex attribute combinations
+
+%html
+  %body
+    -# Classes and IDs in various orders
+    .class1.class2.class3#my-id
+    #my-id.class1.class2
+    %div.class1#id1.class2#id2
+    
+    -# Hash attributes with Ruby code
+    %input{ type: 'text', 
+            name: 'username',
+            value: @user.name,
+            class: calculate_classes(@user),
+            data: { 
+              user_id: @user.id,
+              role: @user.role,
+              active: @user.active?
+            } }
+    
+    -# HTML-style attributes
+    %img(src="/images/logo.png" alt="Logo" width=100 height=50)
+    
+    -# Mixed attribute styles
+    %div.my-class{ id: 'dynamic-id', data: { value: 123 } }(title="Tooltip")
+    
+    -# Object reference
+    %div[@user]
+    %div[@user, :greeting]
+    
+    -# Attributes with multiline continuation
+    %a{ href: long_url_helper(
+          param1: 'value1',
+          param2: 'value2',
+          param3: 'value3'
+        ),
+        class: 'btn btn-primary',
+        data: {
+          toggle: 'modal',
+          target: '#myModal'
+        } }
+      Click me
+    
+    -# Boolean attributes
+    %input{ type: 'checkbox', checked: true }
+    %input{ type: 'checkbox', checked: false }
+    %button{ disabled: disabled? }
+    
+    -# Attributes with string interpolation
+    %div{ class: "user-#{@user.id}", data: { name: "#{@user.first_name} #{@user.last_name}" } }
