@@ -29,7 +29,7 @@
 	"repository": {
 		"haml-comment": {
 			"name": "comment.block.haml",
-			"begin": "^(\\s*)(\\/)(\\[.*?\\])?\\s*$",
+			"begin": "^(\\s*)(\\/)((?!\\[).*)?\\s*$",
 			"end": "^(?!\\1\\s+|$)",
 			"captures": {
 				"1": {
@@ -37,27 +37,38 @@
 				},
 				"2": {
 					"name": "punctuation.definition.comment.haml"
-				},
-				"3": {
-					"name": "meta.tag.haml"
 				}
 			}
 		},
 		"html-comment": {
-			"name": "comment.block.html.haml",
-			"begin": "^(\\s*)(\\/)(\\[.*?\\])?(?!\\s*$)",
-			"end": "$",
-			"captures": {
-				"1": {
-					"name": "punctuation.whitespace.comment.leading.haml"
+			"patterns": [
+				{
+					"name": "comment.block.html.haml",
+					"begin": "^(\\s*)(\\/\\[)",
+					"end": "^(?!\\1\\s+|$)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.whitespace.comment.leading.haml"
+						},
+						"2": {
+							"name": "punctuation.definition.comment.haml"
+						}
+					}
 				},
-				"2": {
-					"name": "punctuation.definition.comment.haml"
-				},
-				"3": {
-					"name": "meta.tag.haml"
+				{
+					"name": "comment.block.html.haml",
+					"begin": "^(\\s*)(\\/)((?!\\s*$))",
+					"end": "$",
+					"captures": {
+						"1": {
+							"name": "punctuation.whitespace.comment.leading.haml"
+						},
+						"2": {
+							"name": "punctuation.definition.comment.haml"
+						}
+					}
 				}
-			}
+			]
 		},
 		"doctype": {
 			"name": "meta.prolog.haml",
@@ -101,7 +112,7 @@
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
-					"name": "entity.name.filter.haml"
+					"name": "entity.name.namespace.haml"
 				}
 			},
 			"patterns": [
@@ -115,7 +126,7 @@
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
-					"name": "entity.name.filter.haml"
+					"name": "entity.name.namespace.haml"
 				}
 			},
 			"patterns": [
@@ -129,7 +140,7 @@
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
-					"name": "entity.name.filter.haml"
+					"name": "entity.name.namespace.haml"
 				}
 			},
 			"patterns": [
@@ -143,7 +154,7 @@
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
-					"name": "entity.name.filter.haml"
+					"name": "entity.name.namespace.haml"
 				}
 			},
 			"patterns": [
@@ -157,7 +168,7 @@
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
-					"name": "entity.name.filter.haml"
+					"name": "entity.name.namespace.haml"
 				}
 			},
 			"patterns": [
@@ -171,7 +182,7 @@
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
-					"name": "entity.name.filter.haml"
+					"name": "entity.name.namespace.haml"
 				}
 			},
 			"patterns": [
@@ -182,9 +193,8 @@
 			]
 		},
 		"script": {
-			"name": "meta.line.ruby.haml",
 			"begin": "^(\\s*)(=|-)([=~])?([<>~])?\\s*",
-			"end": "^(?!\\1\\s|\\s*$)",
+			"end": "^(?!\\1\\s)",
 			"beginCaptures": {
 				"1": {
 					"name": "punctuation.whitespace.script.leading.haml"
@@ -379,16 +389,42 @@
 			]
 		},
 		"ruby-block-with-haml": {
-			"begin": "\\bdo\\b(\\s*\\|[^|]*\\|)?\\s*$",
-			"beginCaptures": {
-				"0": {
-					"name": "keyword.control.ruby"
-				}
-			},
-			"end": "^(?=\\S)",
 			"patterns": [
 				{
-					"include": "$self"
+					"begin": "\\b(if|unless|elsif|else|case|when|while|until|for|begin|rescue|ensure)\\b.*$",
+					"end": "^(?=\\S)",
+					"beginCaptures": {
+						"0": {
+							"patterns": [
+								{
+									"include": "source.ruby"
+								}
+							]
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"begin": "\\bdo\\b(\\s*\\|[^|]*\\|)?\\s*$",
+					"end": "^(?=\\S)",
+					"beginCaptures": {
+						"0": {
+							"patterns": [
+								{
+									"include": "source.ruby"
+								}
+							]
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
 				}
 			]
 		}
