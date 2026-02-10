@@ -17,6 +17,9 @@
 			"include": "#filter"
 		},
 		{
+			"include": "#ruby-control-flow"
+		},
+		{
 			"include": "#script"
 		},
 		{
@@ -402,20 +405,45 @@
 				}
 			]
 		},
-		"ruby-block-with-haml": {
+		"ruby-control-flow": {
 			"patterns": [
 				{
-					"begin": "\\b(if|unless|elsif|else|case|when|while|until|for|begin|rescue|ensure)\\b.*$",
-					"end": "^(?=\\S)",
+					"begin": "^(\\s*)(-)\\s+(if|unless|elsif|case|when)\\b",
 					"beginCaptures": {
-						"0": {
+						"2": {
+							"name": "punctuation.definition.script.haml"
+						},
+						"3": {
+							"name": "keyword.control.ruby"
+						}
+					},
+					"end": "^(?!\\1\\s)",
+					"patterns": [
+						{
+							"begin": "\\G",
+							"end": "$",
 							"patterns": [
 								{
 									"include": "source.ruby"
 								}
 							]
+						},
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"begin": "^(\\s*)(-)\\s+(else)\\s*$",
+					"beginCaptures": {
+						"2": {
+							"name": "punctuation.definition.script.haml"
+						},
+						"3": {
+							"name": "keyword.control.ruby"
 						}
 					},
+					"end": "^(?!\\1\\s)",
 					"patterns": [
 						{
 							"include": "$self"
@@ -423,22 +451,45 @@
 					]
 				},
 				{
-					"begin": "\\bdo\\b(\\s*\\|[^|]*\\|)?\\s*$",
-					"end": "^(?=\\S)",
+					"begin": "^(\\s*)(-)\\s+(.*)\\bdo\\b",
 					"beginCaptures": {
-						"0": {
+						"2": {
+							"name": "punctuation.definition.script.haml"
+						}
+					},
+					"end": "^(?!\\1\\s)",
+					"patterns": [
+						{
+							"begin": "\\G",
+							"end": "$",
 							"patterns": [
+								{
+									"match": "\\bdo\\b",
+									"name": "keyword.control.ruby"
+								},
 								{
 									"include": "source.ruby"
 								}
 							]
-						}
-					},
-					"patterns": [
+						},
 						{
 							"include": "$self"
 						}
 					]
+				}
+			]
+		},
+		"ruby-block-with-haml": {
+			"begin": "\\bdo\\b(\\s*\\|[^|]*\\|)?\\s*$",
+			"end": "^(?=\\S)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.control.ruby"
+				}
+			},
+			"patterns": [
+				{
+					"include": "$self"
 				}
 			]
 		}
