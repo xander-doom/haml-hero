@@ -44,7 +44,7 @@ Auto-formatting is enabled under default vscode settings, but if you have anothe
 ```json
 {
   "[haml]": {
-    "editor.defaultFormatter": "haml-hero.haml-hero",
+    "editor.defaultFormatter": "XanderDoom.haml-hero",
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true
   }
