@@ -495,7 +495,7 @@
 		"ruby-control-flow": {
 			"patterns": [
 				{
-					"begin": "^(\\s*)(-)\\s+(if|unless|elsif|case|when)\\b",
+					"begin": "^(\\s*)(-)\\s+(if|unless|elsif|case|when|while|until|for|begin)\\b",
 					"beginCaptures": {
 						"2": {
 							"name": "punctuation.definition.script.haml"
