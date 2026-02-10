@@ -23,7 +23,7 @@
 			"include": "#element"
 		},
 		{
-			"include": "#interpolation"
+			"include": "#plain-text"
 		}
 	],
 	"repository": {
@@ -359,6 +359,16 @@
 							"include": "source.ruby"
 						}
 					]
+				},
+				{
+					"begin": "\\s+",
+					"end": "(?=$)",
+					"name": "text.haml",
+					"patterns": [
+						{
+							"include": "#interpolation"
+						}
+					]
 				}
 			]
 		},
@@ -379,6 +389,16 @@
 			"patterns": [
 				{
 					"include": "source.ruby"
+				}
+			]
+		},
+		"plain-text": {
+			"begin": "^\\s+(?![%\\-=~!&#\\/.])",
+			"end": "$",
+			"name": "text.haml",
+			"patterns": [
+				{
+					"include": "#interpolation"
 				}
 			]
 		},
