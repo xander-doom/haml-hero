@@ -381,12 +381,12 @@
 			"end": "\\}",
 			"beginCaptures": {
 				"0": {
-					"name": "punctuation.definition.interpolation.begin.haml"
+					"name": "punctuation.section.embedded.begin.ruby"
 				}
 			},
 			"endCaptures": {
 				"0": {
-					"name": "punctuation.definition.interpolation.end.haml"
+					"name": "punctuation.section.embedded.end.ruby"
 				}
 			},
 			"patterns": [
@@ -451,10 +451,17 @@
 					]
 				},
 				{
-					"begin": "^(\\s*)(-)\\s+(.*)\\bdo\\b",
+					"begin": "^(\\s*)(-)\\s+(.*?)(?=\\bdo\\b)",
 					"beginCaptures": {
 						"2": {
 							"name": "punctuation.definition.script.haml"
+						},
+						"3": {
+							"patterns": [
+								{
+									"include": "source.ruby"
+								}
+							]
 						}
 					},
 					"end": "^(?!\\1\\s)",
@@ -480,7 +487,7 @@
 			]
 		},
 		"ruby-block-with-haml": {
-			"begin": "\\bdo\\b(\\s*\\|[^|]*\\|)?\\s*$",
+			"begin": "\\bdo\\b",
 			"end": "^(?=\\S)",
 			"beginCaptures": {
 				"0": {
@@ -488,6 +495,15 @@
 				}
 			},
 			"patterns": [
+				{
+					"begin": "\\G(?=\\s*\\S)",
+					"end": "$",
+					"patterns": [
+						{
+							"include": "source.ruby"
+						}
+					]
+				},
 				{
 					"include": "$self"
 				}
