@@ -1,13 +1,13 @@
 # HAML Hero
 
-Comprehensive HAML support for Visual Studio Code with advanced syntax highlighting and auto-formatting capabilities.
+Comprehensive HAML support for Visual Studio Code with advanced syntax highlighting, linting, and auto-formatting capabilities.
 
 ## Features
 
-- **Enhanced Syntax Highlighting**: Comprehensive syntax highlighting for HAML, including multi-line, code blocks, and complex indentation
-- **Auto-Formatting**: Format HAML files on save using `haml-lint --auto-correct` or `--auto-correct-all`
-- **Real-time Diagnostics**: Live linting feedback with warnings and errors as you type
-- **Highly Configurable**: Customize linter path, formatter mode, and additional arguments
+- **🎨 Enhanced Syntax Highlighting**: Comprehensive syntax highlighting for all HAML features, including multi-line ruby and hash attributes
+- **✨ Auto-Formatting**: Format HAML files on save (powered by [`haml-lint`](https://github.com/sds/haml-lint))
+- **🔍 Real-time Diagnostics**: Live linting feedback with warnings and errors as you type (powered by [`haml-lint`](https://github.com/sds/haml-lint))
+- **⚙️ Highly Configurable**: Customize linter path, formatter mode, and additional arguments
 
 ## Requirements
 
@@ -31,13 +31,11 @@ bundle install
 
 ### Global Installation
 
-A global installation will be pinned to a specific version of Ruby
 
 ```bash
 gem install haml_lint
 ```
-
-If using project-level installation, you may need to configure the linter path (see Extension Settings below) or ensure `bundle exec haml-lint` is accessible in your PATH.
+Warning: A global installation will be pinned to a specific version of Ruby that may not match your project
 
 ## VS Code Settings
 
@@ -55,7 +53,7 @@ Auto-formatting is enabled under default vscode settings, but if you have anothe
 
 ## Extension Settings
 
-This extension contributes the following settings:
+This extension has the following settings:
 
 ### Core Settings
 
@@ -71,6 +69,7 @@ This extension contributes the following settings:
   - If not specified, checks workspace root for `.haml-lint.yml`, then uses extension's default config (which disables LineLength linting because I don't agree with their default of 80 characters)
   - Supports `~` for home directory and relative paths from workspace root
   - Example: `"~/.haml-lint.yml"` or `"config/.haml-lint.yml"`
+- `hamlHero.additionalLinterArguments`: Additional arguments to pass to haml-lint when running diagnostics (default: `""`)
 
 ### Formatter Settings
 
@@ -78,7 +77,6 @@ This extension contributes the following settings:
   - `"safe"`: Only apply safe auto-corrections (`--auto-correct`)
   - `"all"`: Apply all auto-corrections, including potentially unsafe ones (`--auto-correct-all`)
 - `hamlHero.additionalFormatterArguments`: Additional arguments to pass to haml-lint when formatting (default: `""`)
-- `hamlHero.additionalLinterArguments`: Additional arguments to pass to haml-lint when running diagnostics (default: `""`)
 
 ### Example Configuration
 
@@ -93,8 +91,6 @@ This extension contributes the following settings:
 
 ### Configuring haml-lint Rules
 
-The extension includes a default `.haml-lint.yml` with sensible defaults (120 character line length). To customize:
-
 **Option 1: Use workspace config** (recommended for team projects)  
 Create `.haml-lint.yml` in your project root. This will automatically be used.
 
@@ -106,19 +102,32 @@ The extension's bundled config will be used if no workspace config exists.
 
 ## Known Issues
 
-None at this time. Please report issues on the [GitHub repository](https://github.com/yourusername/haml-hero).
+Linter warnings and errors highlight the entire line instead of just the offending code. This is [an issue with `haml-lint`](https://github.com/sds/haml-lint/issues/274), and won't be fixed;
 
-## Release Notes
+Filter blocks (:ruby, :markdown) may not terminate correctly if there is trailing whitespace on the line they should end on.
 
-### 0.0.1
+Please report additional issues on the [GitHub repository](https://github.com/yourusername/haml-hero).
 
-Initial release:
+## Development
 
-- Comprehensive HAML syntax highlighting
-- Auto-formatting with haml-lint integration (safe and all modes)
-- Real-time diagnostics with haml-lint
-- Configurable linter and formatter settings
+### Testing Syntax Highlighting
 
----
+Test fixtures are available in the `test-fixtures/` directory. Open any of these files to verify syntax highlighting:
+
+- `basic-syntax.haml` - Core HAML features
+- `filters.haml` - Embedded language filters
+- `complex-attributes.haml` - Various attribute syntaxes
+- `ruby-integration.haml` - Ruby code integration
+- `rails-helpers.haml` - Rails-specific patterns
+- `edge-cases.haml` - Special scenarios
+
+Run automated grammar tests:
+```bash
+npm install
+npm run test:grammar          # Run tests
+npm run test:grammar:update   # Update snapshots after grammar changes
+```
+
+See [test-fixtures/README.md](test-fixtures/README.md) and [docs/TESTING.md](docs/TESTING.md) for more details.
 
 **Enjoy!**
