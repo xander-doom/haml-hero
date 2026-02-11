@@ -2,12 +2,12 @@
   "name": "haml-hero",
   "displayName": "HAML Hero",
   "description": "Comprehensive HAML support with advanced syntax highlighting, linting, and formatting powered by haml-lint",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "icon": "icon.png",
   "publisher": "XanderDoom",
   "license": "MIT",
   "engines": {
-    "vscode": "^1.109.0"
+    "vscode": "^1.65.0"
   },
   "keywords": [
     "haml",
@@ -114,7 +114,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.x",
-    "@types/vscode": "^1.109.0",
+    "@types/vscode": "^1.65.0",
     "@typescript-eslint/eslint-plugin": "^7.x",
     "@typescript-eslint/parser": "^7.x",
     "eslint": "^8.x",
