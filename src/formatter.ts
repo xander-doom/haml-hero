@@ -7,15 +7,27 @@ import {
   getHamlLintConfigPath,
 } from "./hamlLint";
 
+// Track documents currently being formatted to prevent infinite save loops
+const formattingInProgress = new Set<string>();
+
 export function setExtensionContext(context: vscode.ExtensionContext): void {
   setHamlLintContext(context);
 }
 
+/**
+ * Synchronous document formatter - used for manual format commands.
+ * Returns null when formatInBackground is enabled (so saves aren't blocked).
+ */
 export async function formatHamlDocument(
   document: vscode.TextDocument
 ): Promise<vscode.TextEdit[] | null> {
-  const { enableFormatting } = getHamlLintConfig();
+  const { enableFormatting, formatInBackground } = getHamlLintConfig();
   if (!enableFormatting) {
+    return null;
+  }
+  
+  // When background formatting is enabled, don't block saves with synchronous formatting
+  if (formatInBackground) {
     return null;
   }
 
@@ -52,11 +64,12 @@ export async function formatHamlDocument(
     return null;
   } catch (error: any) {
     const errorMessage = error.message || String(error);
-    if (errorMessage.includes("command not found") || 
-        errorMessage.includes("ENOENT") ||
-        errorMessage.includes("not found") ||
-        error.code === "ENOENT" ||
-        error.code === 127) {
+    // Check specifically for haml-lint executable not found (not temp file errors)
+    const isHamlLintNotFound = 
+      (errorMessage.includes("command not found") && errorMessage.includes("haml-lint")) ||
+      (errorMessage.includes("spawn") && errorMessage.includes("ENOENT")) ||
+      error.code === 127;
+    if (isHamlLintNotFound) {
       vscode.window.showErrorMessage(
         `haml-lint not found. Please install it with 'gem install haml_lint' or configure the path in settings (hamlHero.linterPath).`
       );
@@ -74,5 +87,99 @@ export async function formatHamlDocument(
       vscode.window.showErrorMessage(`HAML Hero: Formatting failed: ${errorMessage}`);
     }
     return null;
+  }
+}
+
+/**
+ * Checks if a document is currently being formatted.
+ */
+export function isFormattingInProgress(uri: vscode.Uri): boolean {
+  return formattingInProgress.has(uri.toString());
+}
+
+/**
+ * Formats a document in the background and applies changes directly to the editor.
+ * Saves the document after formatting completes.
+ */
+export async function formatDocumentInBackground(
+  document: vscode.TextDocument
+): Promise<void> {
+  const { enableFormatting, formatInBackground } = getHamlLintConfig();
+  if (!enableFormatting || !formatInBackground) {
+    return;
+  }
+
+  const uriString = document.uri.toString();
+  
+  // Prevent concurrent formatting of the same document
+  if (formattingInProgress.has(uriString)) {
+    return;
+  }
+
+  const { cwd } = getWorkspaceInfo(document);
+  if (!cwd) {
+    return;
+  }
+
+  // Mark as formatting immediately to prevent concurrent operations
+  formattingInProgress.add(uriString);
+
+  try {
+    const { linterPath, additionalFormatterArguments } = getHamlLintConfig();
+    const configPath = await getHamlLintConfigPath(
+      vscode.workspace.getWorkspaceFolder(document.uri)
+    );
+
+    const originalContent = document.getText();
+    const originalVersion = document.version;
+    
+    const result = await runHamlLint(originalContent, document.fileName, {
+      autoCorrect: true,
+      cwd,
+      configPath,
+      linterPath,
+      additionalArgs: additionalFormatterArguments,
+    });
+
+    // Skip if document was modified while formatting was running
+    if (document.version !== originalVersion) {
+      return;
+    }
+
+    if (result.formattedContent && result.formattedContent !== originalContent) {
+      // Use WorkspaceEdit to apply changes - works even if document isn't visible
+      const fullRange = new vscode.Range(
+        document.positionAt(0),
+        document.positionAt(document.getText().length)
+      );
+      
+      const workspaceEdit = new vscode.WorkspaceEdit();
+      workspaceEdit.replace(document.uri, fullRange, result.formattedContent);
+      
+      const success = await vscode.workspace.applyEdit(workspaceEdit);
+
+      if (success) {
+        // Save the document with the formatted content
+        await document.save();
+      }
+    }
+  } catch (error: any) {
+    // Background formatting errors are logged but don't show intrusive messages
+    // since the file was already saved successfully
+    const errorMessage = error.message || String(error);
+    // Check specifically for haml-lint executable not found (not temp file errors)
+    const isHamlLintNotFound = 
+      (errorMessage.includes("command not found") && errorMessage.includes("haml-lint")) ||
+      (errorMessage.includes("spawn") && errorMessage.includes("ENOENT")) ||
+      error.code === 127;
+    if (isHamlLintNotFound) {
+      vscode.window.showErrorMessage(
+        `haml-lint not found. Please install it with 'gem install haml_lint' or configure the path in settings (hamlHero.linterPath).`
+      );
+    }
+    // Other errors (including temp file issues) are silently ignored for background formatting
+  } finally {
+    // Always remove from formatting set
+    formattingInProgress.delete(uriString);
   }
 }

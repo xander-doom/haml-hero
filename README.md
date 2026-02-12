@@ -11,7 +11,7 @@ Comprehensive HAML support for Visual Studio Code with advanced syntax highlight
 
 ## Requirements
 
-For auto-formatting functionality, you need to install [haml-lint](https://github.com/sds/haml-lint):
+For auto-formatting and linting, you need to install [haml-lint](https://github.com/sds/haml-lint):
 
 ### Project-Level Installation (Recommended)
 
@@ -66,16 +66,26 @@ This extension has the following settings:
   - For global installation: leave as `"haml-lint"`
   - For Bundler: use `"bundle exec haml-lint"` or full path to bundle
 - `hamlHero.configPath`: Path to a custom .haml-lint.yml config file
-  - If not specified, checks workspace root for `.haml-lint.yml`, then uses extension's default config (which disables LineLength linting because I don't agree with their default of 80 characters)
+  - If not specified, checks workspace root for `.haml-lint.yml`
+  - If no config file is found, haml-lint uses its built-in defaults
   - Supports `~` for home directory and relative paths from workspace root
   - Example: `"~/.haml-lint.yml"` or `"config/.haml-lint.yml"`
 - `hamlHero.additionalLinterArguments`: Additional arguments to pass to haml-lint when running diagnostics (default: `""`)
+- `hamlHero.globallyDisabledLinters`: List of haml-lint rules to disable globally across all projects (default: `[]`)
+  - Rules are excluded using haml-lint's `--exclude-linter` flag
+  - Applies to both diagnostics and formatting
+  - Overrides local workspace .haml-lint
+  - Use the Quick Fix menu on any diagnostic to add rules here
+  - Example: `["IdNames", "LineLength", "ClassesBeforeIds"]`
 
 ### Formatter Settings
 
 - `hamlHero.formatterMode`: Determines which auto-corrections to apply (default: `"safe"`)
   - `"safe"`: Only apply safe auto-corrections (`--auto-correct`)
   - `"all"`: Apply all auto-corrections, including potentially unsafe ones (`--auto-correct-all`)
+- `hamlHero.formatInBackground`: When enabled, files save immediately and formatting runs in the background (default: `true`)
+  - Provides a more responsive experience
+  - Set to `false` if you prefer blocking formatting before save completes
 - `hamlHero.additionalFormatterArguments`: Additional arguments to pass to haml-lint when formatting (default: `""`)
 
 ### Example Configuration
@@ -95,14 +105,46 @@ This extension has the following settings:
 Create `.haml-lint.yml` in your project root. This will automatically be used.
 
 **Option 2: Use custom config location**  
-Set `hamlHero.configPath` to point to your config file.
+Set `hamlHero.configPath` to point to your config file. This can be configured per-workspace, so if you don't want your config in the same folder as your project, or if you want to share a config across projects, use this.
 
-**Option 3: Rely on extension defaults**  
-The extension's bundled config will be used if no workspace config exists.
+If no config file is found, haml-lint will use its built-in defaults.
+
+### Disabling Linter Rules
+
+When you hover over a linting diagnostic, you can use the Quick Fix menu (lightbulb icon or `Cmd+.`) to:
+
+- **Disable in this project**: Adds the rule to your project's `.haml-lint.yml` file
+- **Disable globally**: Adds the rule to your VS Code user settings (`hamlHero.globallyDisabledLinters`), applying to all projects
+
+You can also manually manage globally disabled rules in your VS Code settings:
+
+```json
+{
+  "hamlHero.globallyDisabledLinters": ["IdNames", "ClassesBeforeIds"]
+}
+```
+
+#### Inline Disable Comments
+
+For one-off suppressions, haml-lint supports inline disable comments that you can add manually:
+
+```haml
+-# haml-lint:disable IdNames
+%div#my_id Content here
+-# haml-lint:enable IdNames
+```
+
+Or to disable for the rest of the file:
+
+```haml
+-# haml-lint:disable IdNames
+%div#my_id Content here
+%div#another_id More content
+```
 
 ## Known Issues
 
-Linter warnings and errors highlight the entire line instead of just the offending code. This is [an issue with `haml-lint`](https://github.com/sds/haml-lint/issues/274), and won't be fixed;
+Linter warnings and errors highlight the entire line instead of just the offending code. This is [an issue with `haml-lint`](https://github.com/sds/haml-lint/issues/274), and won't be fixed.
 
 Filter blocks (:ruby, :markdown) may not terminate correctly if there is trailing whitespace on the line they should end on.
 

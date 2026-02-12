@@ -27,7 +27,7 @@ export interface HamlLintResult {
 interface HamlLintOptions {
   autoCorrect?: boolean;
   cwd: string;
-  configPath: string;
+  configPath: string | null;
   linterPath: string;
   additionalArgs?: string;
 }
@@ -68,16 +68,24 @@ export async function runHamlLint(
   try {
     let command: string;
     
+    // Get globally disabled linters from settings
+    const { globallyDisabledLinters } = getHamlLintConfig();
+    const excludeLinterArg = globallyDisabledLinters.length > 0
+      ? `--exclude-linter ${globallyDisabledLinters.join(",")}`
+      : "";
+    
     if (options.autoCorrect) {
       const config = vscode.workspace.getConfiguration("hamlHero");
       const formatterMode = config.get<string>("formatterMode", "safe");
       const autoCorrectFlag = formatterMode === "all" ? "--auto-correct-all" : "--auto-correct";
       const additionalArgs = options.additionalArgs || "";
+      const configArg = options.configPath ? `--config "${options.configPath}"` : "";
       
-      command = `"${options.linterPath}" ${autoCorrectFlag} --auto-correct-only --reporter json --config "${options.configPath}" ${additionalArgs} "${tempFile}"`.trim();
+      command = `"${options.linterPath}" ${autoCorrectFlag} --auto-correct-only --reporter json ${configArg} ${excludeLinterArg} ${additionalArgs} "${tempFile}"`.trim();
     } else {
       const additionalArgs = options.additionalArgs || "";
-      command = `"${options.linterPath}" --reporter json --config "${options.configPath}" ${additionalArgs} "${tempFile}"`.trim();
+      const configArg = options.configPath ? `--config "${options.configPath}"` : "";
+      command = `"${options.linterPath}" --reporter json ${configArg} ${excludeLinterArg} ${additionalArgs} "${tempFile}"`.trim();
     }
 
     try {
@@ -142,6 +150,8 @@ export function getHamlLintConfig() {
     formatterMode: config.get<string>("formatterMode", "safe"),
     additionalLinterArguments: config.get<string>("additionalLinterArguments", ""),
     additionalFormatterArguments: config.get<string>("additionalFormatterArguments", ""),
+    formatInBackground: config.get<boolean>("formatInBackground", true),
+    globallyDisabledLinters: config.get<string[]>("globallyDisabledLinters", []),
   };
 }
 
@@ -150,6 +160,6 @@ export function getHamlLintConfig() {
  */
 export async function getHamlLintConfigPath(
   workspaceFolder?: vscode.WorkspaceFolder
-): Promise<string> {
+): Promise<string | null> {
   return getConfigPath(extensionContext, workspaceFolder);
 }

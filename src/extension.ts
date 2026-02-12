@@ -1,11 +1,13 @@
 import * as vscode from "vscode";
-import { formatHamlDocument, setExtensionContext as setFormatterContext } from "./formatter";
+import { formatHamlDocument, formatDocumentInBackground, isFormattingInProgress, setExtensionContext as setFormatterContext } from "./formatter";
 import {
   updateDiagnostics,
   clearDiagnostics,
   clearAllDiagnostics,
   setExtensionContext as setDiagnosticsContext,
 } from "./diagnostics";
+import { getHamlLintConfig } from "./hamlLint";
+import { HamlCodeActionProvider, disableLinterGlobally, disableRule } from "./codeActions";
 
 let diagnosticsTimeout: NodeJS.Timeout | undefined;
 
@@ -14,12 +16,53 @@ export function activate(context: vscode.ExtensionContext) {
   setFormatterContext(context);
   setDiagnosticsContext(context);
 
+  // Register code action provider for quick fixes
+  context.subscriptions.push(
+    vscode.languages.registerCodeActionsProvider(
+      "haml",
+      new HamlCodeActionProvider(),
+      { providedCodeActionKinds: HamlCodeActionProvider.providedCodeActionKinds }
+    )
+  );
+
+  // Register command to disable linter in project .haml-lint.yml
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "hamlHero.disableRule",
+      disableRule
+    )
+  );
+
+  // Register command to disable linter globally in user settings
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "hamlHero.disableLinterGlobally",
+      disableLinterGlobally
+    )
+  );
+
+  // Register command to refresh diagnostics
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "hamlHero.refreshDiagnostics",
+      (document: vscode.TextDocument) => {
+        if (document && document.languageId === "haml") {
+          updateDiagnostics(document);
+        }
+      }
+    )
+  );
+
   // Register document formatting provider
   context.subscriptions.push(
     vscode.languages.registerDocumentFormattingEditProvider("haml", {
       async provideDocumentFormattingEdits(document: vscode.TextDocument) {
+        const { formatInBackground } = getHamlLintConfig();
         const result = await formatHamlDocument(document);
-        await updateDiagnostics(document);
+        // Skip diagnostics here when background formatting is enabled - they'll run on save
+        if (!formatInBackground) {
+          await updateDiagnostics(document);
+        }
         return result;
       },
     })
@@ -39,9 +82,13 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  // Update diagnostics on file save
+  // Update diagnostics on file save and trigger background formatting
   context.subscriptions.push(
     vscode.workspace.onDidSaveTextDocument((document) => {
+      if (document.languageId === "haml" && !isFormattingInProgress(document.uri)) {
+        // Run background formatting (will re-save after formatting)
+        formatDocumentInBackground(document);
+      }
       updateDiagnostics(document);
     })
   );

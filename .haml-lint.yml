@@ -1,6 +1,0 @@
-# Default haml-lint configuration for HAML Hero
-# Users can override this by setting hamlHero.configPath in VS Code settings
-
-linters:
-  LineLength:
-    enabled: false
