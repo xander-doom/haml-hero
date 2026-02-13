@@ -15,8 +15,8 @@ export function setExtensionContext(context: vscode.ExtensionContext): void {
 }
 
 /**
- * Synchronous document formatter - used for manual format commands.
- * Returns null when formatInBackground is enabled (so saves aren't blocked).
+ * Document formatter - handles both synchronous and background formatting.
+ * When formatInBackground is enabled, kicks off async formatting and returns null.
  */
 export async function formatHamlDocument(
   document: vscode.TextDocument
@@ -26,8 +26,10 @@ export async function formatHamlDocument(
     return null;
   }
   
-  // When background formatting is enabled, don't block saves with synchronous formatting
+  // When background formatting is enabled, kick off async formatting and return null
   if (formatInBackground) {
+    // Don't await - let it run in background
+    formatDocumentInBackground(document);
     return null;
   }
 

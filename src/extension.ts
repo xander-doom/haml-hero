@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { formatHamlDocument, formatDocumentInBackground, isFormattingInProgress, setExtensionContext as setFormatterContext } from "./formatter";
+import { formatHamlDocument, setExtensionContext as setFormatterContext } from "./formatter";
 import {
   updateDiagnostics,
   clearDiagnostics,
@@ -82,13 +82,9 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  // Update diagnostics on file save and trigger background formatting
+  // Update diagnostics on file save
   context.subscriptions.push(
     vscode.workspace.onDidSaveTextDocument((document) => {
-      if (document.languageId === "haml" && !isFormattingInProgress(document.uri)) {
-        // Run background formatting (will re-save after formatting)
-        formatDocumentInBackground(document);
-      }
       updateDiagnostics(document);
     })
   );
