@@ -146,7 +146,9 @@ Or to disable for the rest of the file:
 
 Linter warnings and errors highlight the entire line instead of just the offending code. This is [an issue with `haml-lint`](https://github.com/sds/haml-lint/issues/274), and won't be fixed.
 
-Filter blocks (:ruby, :markdown) may not terminate correctly if there is trailing whitespace on the line they should end on.
+Filter blocks (:ruby, :markdown) may not terminate correctly if there is trailing whitespace on the line after the end of the block.
+
+`Format Document` saves document when `formatInBackground` is `true`. It's more common in other linters for `Format Document` to format without saving. It's surprisingly difficult to determine whether formatting was triggered via command or on save. This is a low priority and probably won't be fixed. If this is an issue for you, disable `formatInBackground`.
 
 Please report additional issues on the [GitHub repository](https://github.com/yourusername/haml-hero).
 
