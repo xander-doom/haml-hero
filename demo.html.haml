@@ -1,0 +1,11 @@
+.card#userCard
+  %h2{
+    data:  {
+      toggle: 'dropdown',
+      target: "#menu"}  }
+    =   user.name
+
+  = form_for    @user,
+    url:    user_path, 
+    html_data: {autocomplete: "off" } do |f|
+    = f.submit
