@@ -82,9 +82,11 @@ This extension has the following settings:
 
 ### Formatter Settings
 
-- `hamlHero.formatterMode`: Determines which auto-corrections to apply (default: `"safe"`)
+- `hamlHero.formatterMode`: Determines which rubocop auto-corrections to apply (default: `"safe"`)
   - `"safe"`: Only apply safe auto-corrections (`--auto-correct`)
   - `"all"`: Apply all auto-corrections, including potentially unsafe ones (`--auto-correct-all`)
+  - This only applies to formatting Ruby blocks, not to the HAML itself
+  - See [Rubocop: Autocorrect](https://docs.rubocop.org/rubocop/usage/autocorrect.html) for more information
 - `hamlHero.formatInBackground`: When enabled, files save immediately and formatting runs in the background (default: `true`)
   - Provides a more responsive experience
   - Set to `false` if you prefer blocking formatting before save completes
@@ -116,7 +118,7 @@ If no config file is found, haml-lint will use its built-in defaults.
 When you hover over a linting diagnostic, you can use the Quick Fix menu (lightbulb icon or `Cmd+.`) to:
 
 - **Disable in this project**: Adds the rule to your project's `.haml-lint.yml` file
-- **Disable globally**: Adds the rule to your VS Code user settings (`hamlHero.globallyDisabledLinters`), applying to all projects
+- **Disable globally**: Adds the rule to your VS Code user settings (`hamlHero.globallyDisabledLinters`), applying to all projects. This overrides any local config
 
 You can also manually manage globally disabled rules in your VS Code settings:
 
@@ -132,7 +134,7 @@ For one-off suppressions, haml-lint supports inline disable comments that you ca
 
 ```haml
 -# haml-lint:disable IdNames
-%div#my_id Content here
+#my_id Content here
 -# haml-lint:enable IdNames
 ```
 
@@ -140,40 +142,28 @@ Or to disable for the rest of the file:
 
 ```haml
 -# haml-lint:disable IdNames
-%div#my_id Content here
-%div#another_id More content
+#my_id Content here
+#another_id More content
 ```
 
 ## Known Issues
 
 Linter warnings and errors highlight the entire line instead of just the offending code. This is [an issue with `haml-lint`](https://github.com/sds/haml-lint/issues/274), and won't be fixed.
 
-Filter blocks (:ruby, :markdown) may not terminate correctly if there is trailing whitespace on the line after the end of the block.
-
 `Format Document` saves document when `formatInBackground` is `true`. It's more common in other linters for `Format Document` to format without saving. It's surprisingly difficult to determine whether formatting was triggered via command or on save. This is a low priority and probably won't be fixed. If this is an issue for you, disable `formatInBackground`.
 
-Please report additional issues on the [GitHub repository](https://github.com/yourusername/haml-hero).
+Filter blocks (:ruby, :markdown) may not terminate correctly if there is trailing whitespace on the line after the end of the block.
+
+Please add additional issues or feature requests to the [GitHub repository](https://github.com/xander-doom/haml-hero).
 
 ## Development
 
-### Testing Syntax Highlighting
+### Setup
+1. Install `node`/`npm`
+2. Run `npm install`
+3. Press `F5` to open an extension development host
+4. After any changes to TypeScript files run `npm run compile` and type `Cmd+r` in the extension development host to reload.
 
-Test fixtures are available in the `test-fixtures/` directory. Open any of these files to verify syntax highlighting:
-
-- `basic-syntax.haml` - Core HAML features
-- `filters.haml` - Embedded language filters
-- `complex-attributes.haml` - Various attribute syntaxes
-- `ruby-integration.haml` - Ruby code integration
-- `rails-helpers.haml` - Rails-specific patterns
-- `edge-cases.haml` - Special scenarios
-
-Run automated grammar tests:
-```bash
-npm install
-npm run test:grammar          # Run tests
-npm run test:grammar:update   # Update snapshots after grammar changes
-```
-
-See [test-fixtures/README.md](test-fixtures/README.md) and [docs/TESTING.md](docs/TESTING.md) for more details.
+See [docs/TESTING.md](docs/TESTING.md) for details on syntax testing.
 
 **Enjoy!**

@@ -2,7 +2,7 @@
   "name": "haml-hero",
   "displayName": "HAML Hero",
   "description": "Comprehensive HAML support with advanced syntax highlighting, linting, and formatting powered by haml-lint",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "icon": "icon.png",
   "publisher": "XanderDoom",
   "license": "MIT",

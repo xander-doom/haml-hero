@@ -13,62 +13,105 @@ This installs:
 - ESLint for code quality
 - vscode-tmgrammar-test for grammar testing
 
+## Test Files
+
+The `test-fixtures/` directory contains test files for validating syntax highlighting:
+
+### basic-syntax.haml
+Fundamental HAML features:
+- Tags with % prefix
+- Classes and IDs (., #)
+- Attributes (hash, HTML, object reference)
+- Ruby script blocks (=, -)
+- Comments (-#, /)
+- Doctype (!!!)
+- Whitespace modifiers (<, >, ~, /)
+- Interpolation (#{})
+
+### filters.haml
+HAML filters with embedded language support:
+- :css filter
+- :javascript filter
+- :markdown filter
+- :ruby filter
+
+### complex-attributes.haml
+Attribute syntax combinations:
+- Multiple classes and IDs
+- Hash attributes with nested structures
+- HTML-style attributes
+- Object references
+- Multiline attributes
+- Boolean attributes
+- String interpolation in attributes
+
+### ruby-integration.haml
+Ruby code integration:
+- Control structures (if/elsif/else, case/when, unless)
+- Loops (each, while)
+- Method calls and chaining
+- Blocks and yields
+- Lambdas and procs
+- Ternary operators
+- Safe navigation operator
+
+### rails-helpers.haml
+Rails-specific patterns:
+- content_for blocks
+- Form helpers (form_for, form fields)
+- Link helpers (link_to)
+- Asset helpers (image_tag, javascript_include_tag, etc.)
+- Partial rendering
+- Turbo/Stimulus data attributes
+- Number and time helpers
+
+### edge-cases.haml
+Edge cases and special scenarios:
+- Empty elements
+- Unicode and special characters
+- Namespace tags (XML/SVG)
+- Very long lines
+- Nested structures
+- Whitespace preservation
+- Conditional attributes
+- Multi-line comments
+
+## Expected Highlighting
+
+When highlighting is working correctly, you should see:
+
+- **Tags** (entity.name.tag.haml): Tag names like %div, %p, %span
+- **Classes** (entity.other.attribute-name.class.haml): .class-name
+- **IDs** (entity.other.attribute-name.id.haml): #id-name
+- **Comments** (comment.line.haml, comment.block.haml): -# comment, / comment
+- **Ruby Output** (punctuation.definition.script.output.haml): = code
+- **Ruby Silent** (punctuation.definition.script.silent.haml): - code
+- **Interpolation** (meta.interpolation.ruby.haml): #{variable}
+- **Doctype** (keyword.other.doctype.haml): !!!
+- **Filter** (entity.name.filter.haml): :javascript, :css, etc.
+
 ## Manual Testing
 
 ### Method 1: Extension Development Host
 
 1. Open this project in VS Code
 2. Press `F5` to launch the Extension Development Host
-3. In the new VS Code window, open any `.haml` file
-4. Verify syntax highlighting appears correctly
+3. In the new VS Code window, open any `.haml` file from `test-fixtures/`
+4. Verify syntax highlighting appears correctly according to the "Expected Highlighting" section above
 
 ### Method 2: Direct Testing
 
 1. Open any file from `test-fixtures/` in your current VS Code window
 2. Verify syntax highlighting (if you have the extension installed)
 
-### What to Verify
-
-For each test file, check that:
-
-#### Tags, Classes, and IDs
-- `%div` - Tag names are colored
-- `.classname` - Classes have distinct color
-- `#idname` - IDs have distinct color
-- Implicit divs (`.class` or `#id` without `%div`) work
-
-#### Attributes
-- `{ key: value }` - Hash attributes with Ruby syntax
-- `(key=value)` - HTML attributes
-- `[object]` - Object references
-
-#### Ruby Code
-- `= ruby_code` - Output with Ruby syntax highlighting
-- `- ruby_code` - Silent script with Ruby syntax highlighting
-- `#{}` - Interpolation in strings and text
-
-#### Comments
-- `-# HAML comment` - Styled as comments
-- `/ HTML comment` - Styled as comments
-
-#### Filters
-- `:javascript` blocks - JavaScript syntax inside
-- `:css` blocks - CSS syntax inside
-- `:ruby` blocks - Ruby syntax inside
-- `:markdown` blocks - Markdown syntax inside
-
-#### Special Elements
-- `!!!` - Doctype declarations
-- `<`, `>`, `~`, `/` - Whitespace modifiers
-
 ### Using Scope Inspector
 
-To see what scope is assigned to any token:
+To verify exact scopes assigned to tokens:
 
 1. Place cursor on the token
 2. Open Command Palette (`Cmd+Shift+P` or `Ctrl+Shift+P`)
 3. Run "Developer: Inspect Editor Tokens and Scopes"
-4. Verify the scope matches expectations (see [GRAMMAR.md](GRAMMAR.md))
+4. Verify the scope matches the "Expected Highlighting" section above
 
 ## NPM Scripts
 
