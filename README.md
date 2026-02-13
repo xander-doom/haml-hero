@@ -2,6 +2,8 @@
 
 Comprehensive HAML support for Visual Studio Code with advanced syntax highlighting, linting, and auto-formatting capabilities.
 
+![Demo](./demo.gif)
+
 ## Features
 
 - **🎨 Enhanced Syntax Highlighting**: Comprehensive syntax highlighting for all HAML features, including multi-line ruby and hash attributes
