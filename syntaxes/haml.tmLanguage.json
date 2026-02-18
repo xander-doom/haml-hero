@@ -451,7 +451,8 @@
 					]
 				},
 				{
-					"begin": "\\s+",
+					"comment": "Plain text content with Ruby interpolation support",
+					"begin": "(?=.)",
 					"end": "(?=$)",
 					"name": "text.haml",
 					"patterns": [

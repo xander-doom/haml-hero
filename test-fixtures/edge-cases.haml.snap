@@ -41,6 +41,19 @@
 #                   ^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
 #                                          ^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
 >
+>-# Inline Ruby interpolation
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>#{@test.name}
+#^^^^^^^ text.haml meta.tag.haml
+#       ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#            ^ text.haml meta.tag.haml
+>.test #{@test.name}
+#^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#     ^^^^^^^^ text.haml meta.tag.haml
+#             ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                  ^ text.haml meta.tag.haml
+>
 >-# Namespace tags (XML/SVG)
 #^^ text.haml comment.line.haml punctuation.definition.comment.haml
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
