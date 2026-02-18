@@ -79,6 +79,11 @@ This extension has the following settings:
   - Overrides local workspace .haml-lint
   - Use the Quick Fix menu on any diagnostic to add rules here
   - Example: `["IdNames", "LineLength", "ClassesBeforeIds"]`
+- `hamlHero.disabledRubocopRules`: List of RuboCop cops to disable globally when linting Ruby code in HAML templates (default: `[]`)
+  - Cop names should be in format `Namespace/CopName` (e.g., `Style/StringLiterals`, `Lint/EmptyLine`)
+  - Use the Quick Fix menu on any RuboCop diagnostic to add rules here
+  - These are merged with project-level `.rubocop.yml` settings
+  - Example: `["Style/SingleQuotedStrings", "Metrics/LineLength"]`
 
 ### Formatter Settings
 
@@ -145,6 +150,42 @@ Or to disable for the rest of the file:
 #my_id Content here
 #another_id More content
 ```
+
+### Disabling RuboCop Rules
+
+HAML-lint integrates with RuboCop to lint the Ruby code embedded in your HAML templates. You can disable specific RuboCop cops using the Quick Fix menu:
+
+When you hover over a RuboCop diagnostic, use the Quick Fix menu (lightbulb icon or `Cmd+.`) to:
+
+- **Disable RuboCop rule in this project**: Creates or updates `.rubocop.yml` in your project root with the disabled rule
+- **Disable RuboCop rule globally**: Adds the rule to your VS Code user settings (`hamlHero.disabledRubocopRules`), applying to all projects
+
+#### How RuboCop Config is Resolved
+
+The extension uses the following strategy to apply RuboCop rules:
+
+1. **Local `.rubocop.yml`**: If your project has a `.rubocop.yml` file, it is automatically detected and used by haml-lint. This is the standard way to configure RuboCop, and strongly preferred if you already use rubocop for your project.
+
+2. **Global VS Code settings**: Rules added via `hamlHero.disabledRubocopRules` are merged with your local config. This allows you to maintain both project-specific and global RuboCop settings.
+
+#### Configuration Examples
+
+**Local project config** (`.rubocop.yml`):
+```yaml
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+Lint/EmptyLine:
+  Enabled: false
+```
+
+**Global VS Code settings** (automatically generated haml-lint config):
+```json
+{
+  "hamlHero.disabledRubocopRules": ["Style/DoubleNegation", "Metrics/LineLength"]
+}
+```
+
+These are automatically merged during linting, so both your project and global settings apply together. Note that global settings are applied in the `haml-lint` config using the `disabled_cops` setting instead of using `rubocop.yml`
 
 ## Known Issues
 

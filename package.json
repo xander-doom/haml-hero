@@ -112,18 +112,19 @@
           },
           "default": [],
           "description": "List of haml-lint rules to disable globally across all projects. Use the quick fix menu on a diagnostic to add rules here."
+        },
+        "hamlHero.disabledRubocopRules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+          ],
+          "description": "RuboCop cops to ignore when linting Ruby code in HAML templates. Cop names should be in the format Namespace/CopName (e.g., Style/StringLiterals). The extension generates a temporary .haml-lint.yml config with these cops in the ignored_cops list."
         }
       }
     },
     "commands": [
-      {
-        "command": "hamlHero.disableRule",
-        "title": "HAML Hero: Disable Rule in Project"
-      },
-      {
-        "command": "hamlHero.disableLinterGlobally",
-        "title": "HAML Hero: Disable Rule Globally"
-      },
       {
         "command": "hamlHero.refreshDiagnostics",
         "title": "HAML Hero: Refresh Diagnostics"

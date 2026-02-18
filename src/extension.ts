@@ -6,8 +6,15 @@ import {
   clearAllDiagnostics,
   setExtensionContext as setDiagnosticsContext,
 } from "./diagnostics";
-import { getHamlLintConfig } from "./hamlLint";
-import { HamlCodeActionProvider, disableLinterGlobally, disableRule } from "./codeActions";
+import { getHamlLintConfig, setExtensionContext as setLintContext, regenerateHamlLintConfig } from "./hamlLint";
+import { 
+  HamlCodeActionProvider, 
+  disableLinterGlobally, 
+  disableRule,
+  disableRubocopRule,
+  disableRubocopRuleGlobally,
+  setRegenerateConfigCallback
+} from "./codeActions";
 
 let diagnosticsTimeout: NodeJS.Timeout | undefined;
 
@@ -15,6 +22,10 @@ export function activate(context: vscode.ExtensionContext) {
   // Pass extension context to modules
   setFormatterContext(context);
   setDiagnosticsContext(context);
+  setLintContext(context);
+  
+  // Set callback for config regeneration
+  setRegenerateConfigCallback(regenerateHamlLintConfig);
 
   // Register code action provider for quick fixes
   context.subscriptions.push(
@@ -25,19 +36,35 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
-  // Register command to disable linter in project .haml-lint.yml
+  // Register internal commands for haml-lint rule disabling (hidden from command palette)
+  // Internal commands (prefixed with _) only appear in quick actions, not in command palette
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "hamlHero.disableRule",
+      "_hamlHero.disableRule",
       disableRule
     )
   );
 
-  // Register command to disable linter globally in user settings
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "hamlHero.disableLinterGlobally",
+      "_hamlHero.disableLinterGlobally",
       disableLinterGlobally
+    )
+  );
+
+  // Register internal commands for RuboCop rule disabling (hidden from command palette)
+  // Internal commands (prefixed with _) only appear in quick actions, not in command palette
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "_hamlHero.disableRubocopRule",
+      disableRubocopRule
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "_hamlHero.disableRubocopRuleGlobally",
+      disableRubocopRuleGlobally
     )
   );
 
