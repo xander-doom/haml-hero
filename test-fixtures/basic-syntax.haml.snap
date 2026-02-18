@@ -326,6 +326,15 @@
 #^^^^ text.haml comment.block.html.haml punctuation.whitespace.comment.leading.haml
 #    ^ text.haml comment.block.html.haml punctuation.definition.comment.haml
 #     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.block.html.haml
+>
+>    // Double HTML comment
+#^^^^ text.haml comment.block.html.haml punctuation.whitespace.comment.leading.haml
+#    ^^ text.haml comment.block.html.haml punctuation.definition.comment.haml
+#      ^^^^^^^^^^^^^^^^^^^^ text.haml comment.block.html.haml
+>    // This will appear in the HTML output
+#^^^^ text.haml comment.block.html.haml punctuation.whitespace.comment.leading.haml
+#    ^^ text.haml comment.block.html.haml punctuation.definition.comment.haml
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.block.html.haml
 >    
 >    %footer
 #^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml

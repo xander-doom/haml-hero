@@ -73,9 +73,9 @@
 					}
 				},
 				{
-					"comment": "Multi-line HTML comment",
+					"comment": "Multi-line HTML comment (/ or //)",
 					"name": "comment.block.html.haml",
-					"begin": "^(\\s*)(\\/)(\\s*)$",
+					"begin": "^(\\s*)(\\/\\/?)(\\s*)$",
 					"end": "^(?!\\1\\s+|$)",
 					"beginCaptures": {
 						"1": {
@@ -87,9 +87,9 @@
 					}
 				},
 				{
-					"comment": "Single-line HTML comment",
+					"comment": "Single-line HTML comment (/ or //)",
 					"name": "comment.block.html.haml",
-					"match": "^(\\s*)(\\/)(\\s+.*)$",
+					"match": "^(\\s*)(\\/\\/?)(\\s+.*)$",
 					"captures": {
 						"1": {
 							"name": "punctuation.whitespace.comment.leading.haml"
