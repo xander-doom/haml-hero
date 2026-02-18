@@ -86,7 +86,7 @@ export class HamlCodeActionProvider implements vscode.CodeActionProvider {
     ruleName: string
   ): vscode.CodeAction | undefined {
     const action = new vscode.CodeAction(
-      `Disable '${ruleName}' in this project`,
+      `Disable '${ruleName}' in this project (.haml-lint.yml)`,
       vscode.CodeActionKind.QuickFix
     );
 
@@ -107,7 +107,7 @@ export class HamlCodeActionProvider implements vscode.CodeActionProvider {
     ruleName: string
   ): vscode.CodeAction | undefined {
     const action = new vscode.CodeAction(
-      `Disable '${ruleName}' globally (all projects)`,
+      `Disable '${ruleName}' globally (VS Code settings)`,
       vscode.CodeActionKind.QuickFix
     );
 
