@@ -6,6 +6,7 @@ import {
   getHamlLintConfig,
   getHamlLintConfigPath,
 } from "./hamlLint";
+import { applyAutocorrections } from "./autocorrect";
 
 // Track documents currently being formatted to prevent infinite save loops
 const formattingInProgress = new Set<string>();
@@ -55,12 +56,21 @@ export async function formatHamlDocument(
       additionalArgs: additionalFormatterArguments,
     });
 
-    if (result.formattedContent && result.formattedContent !== document.getText()) {
+    // Start with haml-lint formatted content or original
+    let formattedContent = result.formattedContent || document.getText();
+    
+    // Apply our custom autocorrections
+    formattedContent = await applyAutocorrections(
+      formattedContent,
+      vscode.workspace.getWorkspaceFolder(document.uri)
+    );
+
+    if (formattedContent !== document.getText()) {
       const fullRange = new vscode.Range(
         document.positionAt(0),
         document.positionAt(document.getText().length)
       );
-      return [vscode.TextEdit.replace(fullRange, result.formattedContent)];
+      return [vscode.TextEdit.replace(fullRange, formattedContent)];
     }
 
     return null;
@@ -148,7 +158,16 @@ export async function formatDocumentInBackground(
       return;
     }
 
-    if (result.formattedContent && result.formattedContent !== originalContent) {
+    // Start with haml-lint formatted content or original
+    let formattedContent = result.formattedContent || originalContent;
+    
+    // Apply our custom autocorrections
+    formattedContent = await applyAutocorrections(
+      formattedContent,
+      vscode.workspace.getWorkspaceFolder(document.uri)
+    );
+
+    if (formattedContent !== originalContent) {
       // Use WorkspaceEdit to apply changes - works even if document isn't visible
       const fullRange = new vscode.Range(
         document.positionAt(0),
@@ -156,7 +175,7 @@ export async function formatDocumentInBackground(
       );
       
       const workspaceEdit = new vscode.WorkspaceEdit();
-      workspaceEdit.replace(document.uri, fullRange, result.formattedContent);
+      workspaceEdit.replace(document.uri, fullRange, formattedContent);
       
       const success = await vscode.workspace.applyEdit(workspaceEdit);
 
