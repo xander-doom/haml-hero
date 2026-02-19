@@ -2,7 +2,7 @@
   "name": "haml-hero",
   "displayName": "HAML Hero",
   "description": "Comprehensive HAML support with advanced syntax highlighting, linting, and formatting powered by haml-lint",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "icon": "icon.png",
   "publisher": "XanderDoom",
   "license": "MIT",
@@ -66,6 +66,11 @@
           "type": "boolean",
           "default": true,
           "description": "Enable formatting with haml-lint (make sure formatOnSave is enabled in editor settings for haml files)"
+        },
+        "hamlHero.enableAutocorrections": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable extension specified autocorrections for some minor issues that haml-lint doesn't correct"
         },
         "hamlHero.linterPath": {
           "type": "string",

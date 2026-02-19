@@ -60,6 +60,7 @@ This extension has the following settings:
 ### Core Settings
 
 - `hamlHero.enableFormatting`: Enable automatic formatting with haml-lint (default: `true`)
+- `hamlHero.enableAutocorrections`: Enable additional auto-formatting rules that complement haml-lint's (default: `true`)
 - `hamlHero.enableDiagnostics`: Enable real-time linting diagnostics (default: `true`)
 
 ### Linter Configuration
@@ -87,6 +88,10 @@ This extension has the following settings:
 
 ### Formatter Settings
 
+- `hamlHero.enableFormatting`: Enable/disable automatic formatting with haml-lint (default: `true`)
+- `hamlHero.enableAutocorrections`: Enable/disable built-in autocorrections for TrailingWhitespace, FinalNewline, and SpaceInsideHashAttributes (default: `true`)
+  - These corrections are applied after haml-lint's formatting
+  - Disable if you only want haml-lint's auto-corrections
 - `hamlHero.formatterMode`: Determines which rubocop auto-corrections to apply (default: `"safe"`)
   - `"safe"`: Only apply safe auto-corrections (`--auto-correct`)
   - `"all"`: Apply all auto-corrections, including potentially unsafe ones (`--auto-correct-all`)
@@ -96,6 +101,19 @@ This extension has the following settings:
   - Provides a more responsive experience
   - Set to `false` if you prefer blocking formatting before save completes
 - `hamlHero.additionalFormatterArguments`: Additional arguments to pass to haml-lint when formatting (default: `""`)
+
+### Built-in Autocorrections
+
+In addition to haml-lint's auto-corrections, HAML Hero applies several automatic corrections that haml-lint cannot handle:
+
+- **TrailingWhitespace**: Removes trailing spaces and tabs from all lines
+- **FinalNewline**: Ensures files end with exactly one newline (or no newline if configured as `present: false` in `.haml-lint.yml`)
+- **SpaceInsideHashAttributes**: Normalizes spacing in hash attributes based on your configuration
+  - `space` style (default): `%tag{ key: value }`
+  - `no_space` style: `%tag{key: value}`
+  - Reads configuration from the `SpaceInsideHashAttributes` linter settings in `.haml-lint.yml`
+
+These corrections run automatically after haml-lint's formatting and are included in both sync and background formatting modes.
 
 ### Example Configuration
 

@@ -42,7 +42,7 @@ export async function formatHamlDocument(
     return null;
   }
 
-  const { linterPath, additionalFormatterArguments } = getHamlLintConfig();
+  const { linterPath, additionalFormatterArguments, enableAutocorrections } = getHamlLintConfig();
   const configPath = await getHamlLintConfigPath(
     vscode.workspace.getWorkspaceFolder(document.uri)
   );
@@ -59,11 +59,13 @@ export async function formatHamlDocument(
     // Start with haml-lint formatted content or original
     let formattedContent = result.formattedContent || document.getText();
     
-    // Apply our custom autocorrections
-    formattedContent = await applyAutocorrections(
-      formattedContent,
-      vscode.workspace.getWorkspaceFolder(document.uri)
-    );
+    // Apply our custom autocorrections if enabled
+    if (enableAutocorrections) {
+      formattedContent = await applyAutocorrections(
+        formattedContent,
+        vscode.workspace.getWorkspaceFolder(document.uri)
+      );
+    }
 
     if (formattedContent !== document.getText()) {
       const fullRange = new vscode.Range(
@@ -137,7 +139,7 @@ export async function formatDocumentInBackground(
   formattingInProgress.add(uriString);
 
   try {
-    const { linterPath, additionalFormatterArguments } = getHamlLintConfig();
+    const { linterPath, additionalFormatterArguments, enableAutocorrections } = getHamlLintConfig();
     const configPath = await getHamlLintConfigPath(
       vscode.workspace.getWorkspaceFolder(document.uri)
     );
@@ -161,11 +163,13 @@ export async function formatDocumentInBackground(
     // Start with haml-lint formatted content or original
     let formattedContent = result.formattedContent || originalContent;
     
-    // Apply our custom autocorrections
-    formattedContent = await applyAutocorrections(
-      formattedContent,
-      vscode.workspace.getWorkspaceFolder(document.uri)
-    );
+    // Apply our custom autocorrections if enabled
+    if (enableAutocorrections) {
+      formattedContent = await applyAutocorrections(
+        formattedContent,
+        vscode.workspace.getWorkspaceFolder(document.uri)
+      );
+    }
 
     if (formattedContent !== originalContent) {
       // Use WorkspaceEdit to apply changes - works even if document isn't visible

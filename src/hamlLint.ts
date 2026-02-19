@@ -260,6 +260,7 @@ export function getHamlLintConfig() {
     linterPath: config.get<string>("linterPath", "haml-lint"),
     enableDiagnostics: config.get<boolean>("enableDiagnostics", true),
     enableFormatting: config.get<boolean>("enableFormatting", true),
+    enableAutocorrections: config.get<boolean>("enableAutocorrections", true),
     formatterMode: config.get<string>("formatterMode", "safe"),
     additionalLinterArguments: config.get<string>("additionalLinterArguments", ""),
     additionalFormatterArguments: config.get<string>("additionalFormatterArguments", ""),
