@@ -10,6 +10,8 @@ const execAsync = promisify(exec);
 const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
 const unlink = promisify(fs.unlink);
+const readdir = promisify(fs.readdir);
+const rmdir = promisify(fs.rmdir);
 
 let extensionContext: vscode.ExtensionContext;
 
@@ -37,19 +39,19 @@ interface HamlLintOptions {
  * Creates the temp file in the project directory so RuboCop can find .rubocop.yml
  */
 async function createTempFile(content: string, originalFileName: string, projectDir: string): Promise<string> {
-  // Create temp file in project's .vscode directory to keep it organized
+  // Create temp file in project's tmp directory (ignored by Rails .gitignore)
   // and allow RuboCop to find .rubocop.yml via upward search
-  const vscodeDir = path.join(projectDir, ".vscode");
+  const tmpDir = path.join(projectDir, "tmp");
   
   try {
-    await vscode.workspace.fs.stat(vscode.Uri.file(vscodeDir));
+    await vscode.workspace.fs.stat(vscode.Uri.file(tmpDir));
   } catch {
-    // Create .vscode dir if it doesn't exist
-    await vscode.workspace.fs.createDirectory(vscode.Uri.file(vscodeDir));
+    // Create tmp dir if it doesn't exist
+    await vscode.workspace.fs.createDirectory(vscode.Uri.file(tmpDir));
   }
   
   const tempFile = path.join(
-    vscodeDir,
+    tmpDir,
     `.haml-lint-temp-${Date.now()}-${path.basename(originalFileName)}`
   );
   await writeFile(tempFile, content, "utf8");
@@ -58,10 +60,22 @@ async function createTempFile(content: string, originalFileName: string, project
 
 /**
  * Safely deletes a temp file, ignoring errors.
+ * Also removes the tmp directory if it becomes empty.
  */
 async function cleanupTempFile(filePath: string): Promise<void> {
   try {
     await unlink(filePath);
+    
+    // Try to remove the tmp directory if it's empty
+    const dir = path.dirname(filePath);
+    try {
+      const files = await readdir(dir);
+      if (files.length === 0) {
+        await rmdir(dir);
+      }
+    } catch {
+      // Ignore errors checking/removing directory
+    }
   } catch {
     // Ignore cleanup errors
   }
