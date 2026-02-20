@@ -112,7 +112,8 @@ function fixHashAttributesOnLine(line: string, style: "space" | "no_space"): str
   
   while (i < line.length) {
     // Find the start of hash attributes
-    if (line[i] === "{") {
+    // Skip if preceded by # (Ruby interpolation like #{...})
+    if (line[i] === "{" && (i === 0 || line[i - 1] !== "#")) {
       const hashStart = i;
       let braceDepth = 1;
       let j = i + 1;
@@ -204,17 +205,9 @@ export async function applyAutocorrections(
   
   let result = content;
   
-  let t = performance.now();
   result = autocorrectTrailingWhitespace(result);
-  console.log(`  - TrailingWhitespace: ${(performance.now() - t).toFixed(2)}ms`);
-  
-  t = performance.now();
   result = autocorrectSpaceInsideHashAttributes(result, settings.spaceInsideHashAttributesStyle);
-  console.log(`  - SpaceInsideHashAttributes: ${(performance.now() - t).toFixed(2)}ms`);
-  
-  t = performance.now();
   result = autocorrectFinalNewline(result, settings.finalNewlinePresent);
-  console.log(`  - FinalNewline: ${(performance.now() - t).toFixed(2)}ms`);
   
   return result;
 }
