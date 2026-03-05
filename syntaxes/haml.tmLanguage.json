@@ -539,7 +539,8 @@
 					]
 				},
 				{
-					"begin": "^(\\s*)(-)\\s+(.*?)(?=\\bdo\\b)",
+					"comment": "do-block pattern - [^#] prevents matching do inside Ruby comments",
+					"begin": "^(\\s*)(-)\\s+([^#]*?)(?=\\bdo\\b)",
 					"beginCaptures": {
 						"2": {
 							"name": "punctuation.definition.script.haml"
