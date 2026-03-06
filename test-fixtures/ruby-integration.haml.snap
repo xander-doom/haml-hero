@@ -5,7 +5,7 @@
 >- # This is a Ruby comment
 #^ text.haml punctuation.definition.script.haml
 # ^ text.haml
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.number-sign.ruby
 >-# This is a HAML comment
 #^^ text.haml comment.line.haml punctuation.definition.comment.haml
 #  ^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
@@ -44,7 +44,7 @@
 #  ^ text.haml punctuation.definition.script.haml
 #   ^ text.haml
 #    ^^ text.haml keyword.control.ruby
-#      ^^^^^^^^^^^^^^ text.haml
+#      ^^^^^^^^^^^^^ text.haml
 >    %p.admin-notice You are an administrator
 #^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
 #    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
@@ -56,7 +56,7 @@
 #  ^ text.haml punctuation.definition.script.haml
 #   ^ text.haml
 #    ^^^^^ text.haml keyword.control.ruby
-#         ^^^^^^^^^^^^^^^^^^ text.haml
+#         ^^^^^^^^^^^^^^^^^ text.haml
 >    %p.mod-notice You are a moderator
 #^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
 #    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
@@ -84,13 +84,13 @@
 #  ^ text.haml punctuation.definition.script.haml
 #   ^ text.haml
 #    ^^^^ text.haml keyword.control.ruby
-#        ^^^^^^^^^^^^^^ text.haml
+#        ^^^^^^^^^^^^^ text.haml
 >  - when 'active'
 #^^ text.haml
 #  ^ text.haml punctuation.definition.script.haml
 #   ^ text.haml
 #    ^^^^ text.haml keyword.control.ruby
-#        ^^^^^^^^^^ text.haml
+#        ^^^^^^^^^ text.haml
 >    .badge.badge-success Active
 #^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
 #    ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
@@ -101,7 +101,7 @@
 #  ^ text.haml punctuation.definition.script.haml
 #   ^ text.haml
 #    ^^^^ text.haml keyword.control.ruby
-#        ^^^^^^^^^^^ text.haml
+#        ^^^^^^^^^^ text.haml
 >    .badge.badge-warning Pending
 #^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
 #    ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
@@ -112,7 +112,7 @@
 #  ^ text.haml punctuation.definition.script.haml
 #   ^ text.haml
 #    ^^^^ text.haml keyword.control.ruby
-#        ^^^^^^^^^^^^^ text.haml
+#        ^^^^^^^^^^^^ text.haml
 >    .badge.badge-danger Suspended
 #^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
 #    ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
@@ -235,7 +235,7 @@
 #  ^ text.haml punctuation.definition.script.haml
 #   ^ text.haml
 #    ^^^^^ text.haml keyword.control.ruby
-#         ^^^^^^^^^^^^^ text.haml
+#         ^^^^^^^^^^^^ text.haml
 >    %p Count: #{counter}
 #^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
 #    ^ text.haml meta.tag.haml punctuation.definition.tag.haml
@@ -256,7 +256,7 @@
 #  ^ text.haml punctuation.definition.script.haml
 #   ^ text.haml
 #    ^^^^^^ text.haml keyword.control.ruby
-#          ^^^^^^^^^^^^^^^^ text.haml
+#          ^^^^^^^^^^^^^^^ text.haml
 >    .alert.alert-danger
 #^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
 #    ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml

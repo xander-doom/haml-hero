@@ -212,7 +212,7 @@
 #      ^ text.haml punctuation.definition.script.haml
 #       ^ text.haml
 #        ^^ text.haml keyword.control.ruby
-#          ^^^^^^^^^^^^ text.haml
+#          ^^^^^^^^^^^ text.haml
 >        %p Welcome back!
 #^^^^^^^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
 #        ^ text.haml meta.tag.haml punctuation.definition.tag.haml
@@ -268,7 +268,8 @@
 >      == Escaped output: #{value}
 #^^^^^^ text.haml punctuation.whitespace.script.leading.haml
 #      ^ text.haml punctuation.definition.script.haml
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+#       ^^^^^^^^^^^^^^^^^^ text.haml
+#                         ^^^^^^^^ text.haml comment.line.number-sign.ruby
 >      =~ preserve_whitespace(content)
 #^^^^^^ text.haml punctuation.whitespace.script.leading.haml
 #      ^ text.haml punctuation.definition.script.haml

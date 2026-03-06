@@ -274,6 +274,9 @@
 			},
 			"patterns": [
 				{
+					"include": "#ruby-line-comment"
+				},
+				{
 					"include": "#ruby-block-with-haml"
 				},
 				{
@@ -568,6 +571,11 @@
 				}
 			]
 		},
+		"ruby-line-comment": {
+			"comment": "Ruby line comment - must be matched before ruby-block-with-haml to prevent do matching inside comments",
+			"match": "#.*$",
+			"name": "comment.line.number-sign.ruby"
+		},
 		"plain-text": {
 			"comment": "Lines without HAML syntax - supports #{...} interpolation",
 			"begin": "^\\s*(?![%\\-=~!&#\\/.:])",
@@ -598,6 +606,9 @@
 							"end": "$",
 							"patterns": [
 								{
+									"include": "#ruby-line-comment"
+								},
+								{
 									"include": "source.ruby"
 								}
 							]
@@ -625,8 +636,8 @@
 					]
 				},
 				{
-					"comment": "do-block pattern - [^#] prevents matching do inside Ruby comments",
-					"begin": "^(\\s*)(-)\\s*([^#]*?)(?=\\bdo\\b)",
+					"comment": "do-block pattern - lookahead ensures no # before do",
+					"begin": "^(\\s*)(-)\\s*([^#]*?)(?=[^#]*\\bdo\\b)",
 					"beginCaptures": {
 						"2": {
 							"name": "punctuation.definition.script.haml"
