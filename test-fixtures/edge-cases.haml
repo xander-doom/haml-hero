@@ -81,8 +81,35 @@
 %div
   -# Comment
   -# Another comment
-  
+
   -#
     Multi-line comment
     that spans several lines
     and has indented content
+
+-# Ruby comments with keywords (do/end should not break comment highlighting)
+- # test do end
+- # if condition do something end
+- # handle do block inside comment
+-# HAML comment with do keyword also works
+-# test do end
+
+-# Multi-line Ruby after elements (continuation lines)
+%div=ff.input :test,
+             as: :select
+%div.container= render partial: 'item',
+                  collection: @items,
+                  locals: { show: true }
+.shorthand-class= f.input :test,
+            as: :select
+#identifier= f.input :test,
+            as: :select
+
+-# Plain text interpolation at various indentation levels
+test #{@variable} plain text
+  indented #{@other} text
+    deeply #{@nested} indented
+Hello #{name}, welcome to #{place}!
+
+-if @condition
+  %p Plain text

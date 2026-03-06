@@ -145,6 +145,7 @@
 			]
 		},
 		"filter-javascript": {
+			"name": "meta.filter.javascript.haml",
 			"begin": "^(\\s*)(:javascript)\\s*$",
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
@@ -159,7 +160,8 @@
 			]
 		},
 		"filter-coffee": {
-			"begin": "^(\\s*)(:coffee|:coffeescript)\\s*$",
+			"name": "meta.filter.coffee.haml",
+			"begin": "^(\\s*)(:coffee|:coffeescript)",
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
@@ -173,7 +175,8 @@
 			]
 		},
 		"filter-css": {
-			"begin": "^(\\s*)(:css)\\s*$",
+			"name": "meta.filter.css.haml",
+			"begin": "^(\\s*)(:css)",
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
@@ -187,7 +190,8 @@
 			]
 		},
 		"filter-erb": {
-			"begin": "^(\\s*)(:erb)\\s*$",
+			"name": "meta.filter.erb.haml",
+			"begin": "^(\\s*)(:erb)",
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
@@ -201,7 +205,7 @@
 			]
 		},
 		"filter-ruby": {
-			"begin": "^(\\s*)(:ruby)\\s*$",
+			"begin": "^(\\s*)(:ruby)",
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
@@ -215,7 +219,7 @@
 			]
 		},
 		"filter-markdown": {
-			"begin": "^(\\s*)(:markdown|:md)\\s*$",
+			"begin": "^(\\s*)(:markdown|:md)",
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
@@ -229,7 +233,7 @@
 			]
 		},
 		"filter-scss": {
-			"begin": "^(\\s*)(:scss|:sass)\\s*$",
+			"begin": "^(\\s*)(:scss|:sass)",
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
@@ -243,7 +247,7 @@
 			]
 		},
 		"filter-plain": {
-			"begin": "^(\\s*)(:plain|:escaped|:preserve|:cdata)\\s*$",
+			"begin": "^(\\s*)(:plain|:escaped|:preserve|:cdata)",
 			"end": "^(?!\\1\\s+|$)",
 			"beginCaptures": {
 				"2": {
@@ -280,6 +284,32 @@
 		"element": {
 			"patterns": [
 				{
+					"comment": "Element with explicit tag and multi-line Ruby (has = and ends with comma)",
+					"name": "meta.tag.haml",
+					"begin": "^(\\s*)(%)([-\\w:-]+)(?=.*=.*,$)",
+					"end": "^(?!\\1\\s+\\S)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.whitespace.tag.leading.haml"
+						},
+						"2": {
+							"name": "punctuation.definition.tag.haml"
+						},
+						"3": {
+							"name": "entity.name.tag.haml"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#element-first-line"
+						},
+						{
+							"include": "#element-ruby-continuation"
+						}
+					]
+				},
+				{
+					"comment": "Element with explicit tag (single line)",
 					"name": "meta.tag.haml",
 					"begin": "^(\\s*)(%)([-\\w:-]+)",
 					"end": "$",
@@ -304,6 +334,38 @@
 					]
 				},
 				{
+					"comment": "Implicit div with class/id and multi-line Ruby (has = and ends with comma)",
+					"name": "meta.tag.haml",
+					"begin": "^(\\s*)((?:[.#][\\w-]+)+)(?=.*=.*,$)",
+					"end": "^(?!\\1\\s+\\S)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.whitespace.tag.leading.haml"
+						},
+						"2": {
+							"patterns": [
+								{
+									"match": "\\.[\\w-]+",
+									"name": "entity.name.tag.haml"
+								},
+								{
+									"match": "#[\\w-]+",
+									"name": "entity.other.attribute-name.id.haml"
+								}
+							]
+						}
+					},
+					"patterns": [
+						{
+							"include": "#element-first-line"
+						},
+						{
+							"include": "#element-ruby-continuation"
+						}
+					]
+				},
+				{
+					"comment": "Implicit div with class/id (single line)",
 					"name": "meta.tag.haml",
 					"begin": "^(\\s*)(?=[.#])",
 					"end": "$",
@@ -320,6 +382,29 @@
 							"include": "#element-content"
 						}
 					]
+				}
+			]
+		},
+		"element-first-line": {
+			"comment": "First line of element - attributes and content",
+			"begin": "\\G",
+			"end": "$",
+			"patterns": [
+				{
+					"include": "#element-attributes"
+				},
+				{
+					"include": "#element-content"
+				}
+			]
+		},
+		"element-ruby-continuation": {
+			"comment": "Continuation lines for multi-line Ruby in elements",
+			"begin": "^\\s+(?!\\s*$)",
+			"end": "$",
+			"patterns": [
+				{
+					"include": "source.ruby"
 				}
 			]
 		},
@@ -431,7 +516,7 @@
 			"patterns": [
 				{
 					"name": "meta.line.ruby.haml",
-					"begin": "(=)(=)?([<>~])?\\s+",
+					"begin": "(=)(=)?([<>~])?\\s*",
 					"end": "(?=$)",
 					"beginCaptures": {
 						"1": {
@@ -484,7 +569,8 @@
 			]
 		},
 		"plain-text": {
-			"begin": "^\\s+(?![%\\-=~!&#\\/.])",
+			"comment": "Lines without HAML syntax - supports #{...} interpolation",
+			"begin": "^\\s*(?![%\\-=~!&#\\/.:])",
 			"end": "$",
 			"name": "text.haml",
 			"patterns": [
@@ -496,7 +582,7 @@
 		"ruby-control-flow": {
 			"patterns": [
 				{
-					"begin": "^(\\s*)(-)\\s+(if|unless|elsif|case|when|while|until|for|begin)\\b",
+					"begin": "^(\\s*)(-)\\s*(if|unless|elsif|case|when|while|until|for|begin)\\b",
 					"beginCaptures": {
 						"2": {
 							"name": "punctuation.definition.script.haml"
@@ -522,7 +608,7 @@
 					]
 				},
 				{
-					"begin": "^(\\s*)(-)\\s+(else)\\s*$",
+					"begin": "^(\\s*)(-)\\s*(else)\\s*$",
 					"beginCaptures": {
 						"2": {
 							"name": "punctuation.definition.script.haml"
@@ -540,7 +626,7 @@
 				},
 				{
 					"comment": "do-block pattern - [^#] prevents matching do inside Ruby comments",
-					"begin": "^(\\s*)(-)\\s+([^#]*?)(?=\\bdo\\b)",
+					"begin": "^(\\s*)(-)\\s*([^#]*?)(?=\\bdo\\b)",
 					"beginCaptures": {
 						"2": {
 							"name": "punctuation.definition.script.haml"

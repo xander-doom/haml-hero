@@ -274,7 +274,7 @@
 #^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
 #  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
 #    ^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
->  
+>
 >  -#
 #^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
 #  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
@@ -284,4 +284,89 @@
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
 >    and has indented content
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>
+>-# Ruby comments with keywords (do/end should not break comment highlighting)
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>- # test do end
+#^ text.haml punctuation.definition.script.haml
+# ^ text.haml
+#  ^^^^^^^ text.haml
+#         ^^ text.haml keyword.control.ruby
+#           ^^^^^ text.haml
+>- # if condition do something end
+#^ text.haml punctuation.definition.script.haml
+# ^ text.haml
+#  ^^^^^^^^^^^^^^^ text.haml
+#                 ^^ text.haml keyword.control.ruby
+#                   ^^^^^^^^^^^^^^^ text.haml
+>- # handle do block inside comment
+#^ text.haml punctuation.definition.script.haml
+# ^ text.haml
+#  ^^^^^^^^^ text.haml
+#           ^^ text.haml keyword.control.ruby
+#             ^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>-# HAML comment with do keyword also works
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>-# test do end
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^ text.haml comment.line.haml
+>
+>-# Multi-line Ruby after elements (continuation lines)
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>%div=ff.input :test,
+#^ text.haml meta.tag.haml punctuation.definition.tag.haml
+# ^^^ text.haml meta.tag.haml entity.name.tag.haml
+#    ^^^ text.haml meta.tag.haml
+#       ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#             ^^^^^^^ text.haml meta.tag.haml
+>             as: :select
+#^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>%div.container= render partial: 'item',
+#^ text.haml meta.tag.haml punctuation.definition.tag.haml
+# ^^^ text.haml meta.tag.haml entity.name.tag.haml
+#    ^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#              ^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>                  collection: @items,
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>                  locals: { show: true }
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>.shorthand-class= f.input :test,
+#^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                ^^^ text.haml meta.tag.haml
+#                   ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                         ^^^^^^^ text.haml meta.tag.haml
+>            as: :select
+#^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>#identifier= f.input :test,
+#^^^^^^^^^^^ text.haml meta.tag.haml entity.other.attribute-name.id.haml
+#           ^^^ text.haml meta.tag.haml
+#              ^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                    ^^^^^^^ text.haml meta.tag.haml
+>            as: :select
+#^^^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml
+>
+>-# Plain text interpolation at various indentation levels
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>test #{@variable} plain text
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>  indented #{@other} text
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>    deeply #{@nested} indented
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>Hello #{name}, welcome to #{place}!
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml
+>
+>-if @condition
+#^ text.haml punctuation.definition.script.haml
+# ^^ text.haml keyword.control.ruby
+#   ^^^^^^^^^^^^ text.haml
+>  %p Plain text
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^ text.haml meta.tag.haml entity.name.tag.haml
+#    ^^^^^^^^^^^ text.haml meta.tag.haml
 >
