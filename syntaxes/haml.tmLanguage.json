@@ -23,6 +23,9 @@
 			"include": "#ruby-control-flow"
 		},
 		{
+			"include": "#unescaped-interpolation"
+		},
+		{
 			"include": "#script"
 		},
 		{
@@ -261,8 +264,28 @@
 				}
 			]
 		},
+		"unescaped-interpolation": {
+			"comment": "== outputs a string with interpolation (unescaped HTML)",
+			"match": "^(\\s*)(==)(\\s*)(.*)$",
+			"captures": {
+				"1": {
+					"name": "punctuation.whitespace.script.leading.haml"
+				},
+				"2": {
+					"name": "punctuation.definition.script.output.haml"
+				},
+				"4": {
+					"name": "string.unquoted.haml",
+					"patterns": [
+						{
+							"include": "#interpolation"
+						}
+					]
+				}
+			}
+		},
 		"script": {
-			"begin": "^(\\s*)([!&]?=|~|-)\\s*",
+			"begin": "^(\\s*)([!&]?=(?!=)|~|-)\\s*",
 			"end": "^(?!\\1\\s)",
 			"beginCaptures": {
 				"1": {

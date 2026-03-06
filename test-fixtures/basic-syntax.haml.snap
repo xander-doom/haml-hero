@@ -267,9 +267,9 @@
 #        ^^^^^^^^^^^^^^^^^^^^^^^ text.haml
 >      == Escaped output: #{value}
 #^^^^^^ text.haml punctuation.whitespace.script.leading.haml
-#      ^ text.haml punctuation.definition.script.haml
-#       ^^^^^^^^^^^^^^^^^^ text.haml
-#                         ^^^^^^^^ text.haml comment.line.number-sign.ruby
+#      ^^ text.haml punctuation.definition.script.output.haml
+#        ^ text.haml
+#         ^^^^^^^^^^^^^^^^^^^^^^^^ text.haml string.unquoted.haml
 >      =~ preserve_whitespace(content)
 #^^^^^^ text.haml punctuation.whitespace.script.leading.haml
 #      ^ text.haml punctuation.definition.script.haml

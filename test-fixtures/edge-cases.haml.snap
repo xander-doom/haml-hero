@@ -364,3 +364,16 @@
 #   ^ text.haml meta.tag.haml entity.name.tag.haml
 #    ^^^^^^^^^^^ text.haml meta.tag.haml
 >
+>-# Double equals (unescaped string interpolation)
+#^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>== This is a string with #{interpolation}
+#^^ text.haml punctuation.definition.script.output.haml
+#  ^ text.haml
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml string.unquoted.haml
+>  == Indented double equals #{test}
+#^^ text.haml punctuation.whitespace.script.leading.haml
+#  ^^ text.haml punctuation.definition.script.output.haml
+#    ^ text.haml
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml string.unquoted.haml
+>
