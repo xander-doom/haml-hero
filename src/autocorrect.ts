@@ -5,19 +5,39 @@ import * as path from "path";
  * Parses .haml-lint.yml to extract linter settings for autocorrection.
  */
 interface LinterSettings {
-  finalNewlinePresent: boolean;
+  trailingWhitespaceEnabled: boolean;
+  spaceBeforeScriptEnabled: boolean;
+  spaceInsideHashAttributesEnabled: boolean;
   spaceInsideHashAttributesStyle: "space" | "no_space";
+  finalNewlineEnabled: boolean;
+  finalNewlinePresent: boolean;
 }
 
 /**
- * Reads .haml-lint.yml and extracts linter settings for FinalNewline and SpaceInsideHashAttributes.
+ * Checks if a linter is enabled in the config content.
+ * Linters are enabled by default unless explicitly set to enabled: false.
+ */
+function isLinterEnabled(configContent: string, linterName: string): boolean {
+  const pattern = new RegExp(
+    `${linterName}:\\s*\\n(?:[ \\t]+[^\\n]+\\n)*?[ \\t]+enabled:\\s*(true|false)`
+  );
+  const match = configContent.match(pattern);
+  return match ? match[1] === "true" : true; // default to enabled
+}
+
+/**
+ * Reads .haml-lint.yml and extracts linter settings.
  */
 async function getLinterSettings(
   workspaceFolder?: vscode.WorkspaceFolder
 ): Promise<LinterSettings> {
   const defaults: LinterSettings = {
-    finalNewlinePresent: true,
+    trailingWhitespaceEnabled: true,
+    spaceBeforeScriptEnabled: true,
+    spaceInsideHashAttributesEnabled: true,
     spaceInsideHashAttributesStyle: "space",
+    finalNewlineEnabled: true,
+    finalNewlinePresent: true,
   };
 
   if (!workspaceFolder) {
@@ -29,6 +49,12 @@ async function getLinterSettings(
     const configUri = vscode.Uri.file(configPath);
     const configBytes = await vscode.workspace.fs.readFile(configUri);
     const configContent = Buffer.from(configBytes).toString("utf8");
+
+    // Parse enabled state for each linter
+    defaults.trailingWhitespaceEnabled = isLinterEnabled(configContent, "TrailingWhitespace");
+    defaults.spaceBeforeScriptEnabled = isLinterEnabled(configContent, "SpaceBeforeScript");
+    defaults.spaceInsideHashAttributesEnabled = isLinterEnabled(configContent, "SpaceInsideHashAttributes");
+    defaults.finalNewlineEnabled = isLinterEnabled(configContent, "FinalNewline");
 
     // Parse FinalNewline present setting
     const finalNewlineMatch = configContent.match(
@@ -247,10 +273,18 @@ export async function applyAutocorrections(
   
   let result = content;
   
-  result = autocorrectTrailingWhitespace(result);
-  result = autocorrectSpaceBeforeScript(result);
-  result = autocorrectSpaceInsideHashAttributes(result, settings.spaceInsideHashAttributesStyle);
-  result = autocorrectFinalNewline(result, settings.finalNewlinePresent);
+  if (settings.trailingWhitespaceEnabled) {
+    result = autocorrectTrailingWhitespace(result);
+  }
+  if (settings.spaceBeforeScriptEnabled) {
+    result = autocorrectSpaceBeforeScript(result);
+  }
+  if (settings.spaceInsideHashAttributesEnabled) {
+    result = autocorrectSpaceInsideHashAttributes(result, settings.spaceInsideHashAttributesStyle);
+  }
+  if (settings.finalNewlineEnabled) {
+    result = autocorrectFinalNewline(result, settings.finalNewlinePresent);
+  }
   
   return result;
 }
