@@ -190,10 +190,52 @@ function fixHashOpening(afterBrace: string, style: "space" | "no_space"): string
 }
 
 /**
+ * Ensures exactly one space between script operators and code.
+ * 
+ * HAML script operators: =, !=, &=, ~, -
+ * Each should be followed by exactly one space before the code.
+ */
+function autocorrectSpaceBeforeScript(content: string): string {
+  const lines = content.split("\n");
+  const result: string[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+    
+    // Match lines starting with script operators: =, !=, &=, ~, -
+    // [!&]?=(?!=) matches =, !=, &= but not ==
+    // The pattern matches: optional whitespace, operator, spaces, rest of line
+    const match = line.match(/^(\s*)([!&]?=(?!=)|~|-)(\s*)(.*)$/);
+    
+    if (match) {
+      const leadingWhitespace = match[1];
+      const operator = match[2];
+      const spacesAfter = match[3];
+      const code = match[4];
+      
+      // If there's actual code after the operator, ensure exactly one space
+      // Otherwise preserve the line (handles blank lines with just operators)
+      if (code.trim().length > 0) {
+        line = leadingWhitespace + operator + " " + code;
+      } else if (code.length === 0 && spacesAfter.length > 0) {
+        // Line ends with operator + whitespace but no code - remove trailing space
+        line = leadingWhitespace + operator;
+      }
+      // else: line is just whitespace + operator, leave as-is
+    }
+    
+    result.push(line);
+  }
+
+  return result.join("\n");
+}
+
+/**
  * Applies all autocorrection rules to content.
  * 
  * Corrections applied:
  * - TrailingWhitespace: Remove trailing spaces/tabs from lines
+ * - SpaceBeforeScript: Ensure one space between script operators and code
  * - SpaceInsideHashAttributes: Fix spacing in hash attributes based on config
  * - FinalNewline: Ensure proper number of trailing newlines
  */
@@ -206,6 +248,7 @@ export async function applyAutocorrections(
   let result = content;
   
   result = autocorrectTrailingWhitespace(result);
+  result = autocorrectSpaceBeforeScript(result);
   result = autocorrectSpaceInsideHashAttributes(result, settings.spaceInsideHashAttributesStyle);
   result = autocorrectFinalNewline(result, settings.finalNewlinePresent);
   
