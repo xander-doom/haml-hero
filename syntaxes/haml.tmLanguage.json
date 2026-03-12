@@ -5,6 +5,9 @@
 	"fileTypes": ["haml"],
 	"patterns": [
 		{
+			"include": "#git-conflict-markers"
+		},
+		{
 			"include": "#escaped-line"
 		},
 		{
@@ -36,6 +39,11 @@
 		}
 	],
 	"repository": {
+		"git-conflict-markers": {
+			"comment": "Git merge conflict markers - match before other patterns",
+			"name": "invalid.illegal.conflict-marker.haml",
+			"match": "^(<{7}|={7}|>{7}).*$"
+		},
 		"escaped-line": {
 			"comment": "Backslash escapes the first character, treating line as plain text",
 			"name": "string.unquoted.haml",
