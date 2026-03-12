@@ -2,7 +2,7 @@
   "name": "haml-hero",
   "displayName": "HAML Hero",
   "description": "Comprehensive HAML support with advanced syntax highlighting, linting, and formatting powered by haml-lint",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "icon": "icon.png",
   "publisher": "XanderDoom",
   "license": "MIT",
@@ -138,6 +138,7 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
+    "publish": "vsce publish && npx ovsx publish",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
