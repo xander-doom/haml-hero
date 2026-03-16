@@ -11,6 +11,7 @@ interface LinterSettings {
   spaceInsideHashAttributesStyle: "space" | "no_space";
   finalNewlineEnabled: boolean;
   finalNewlinePresent: boolean;
+  rubyCommentsEnabled: boolean;
 }
 
 /**
@@ -38,6 +39,7 @@ async function getLinterSettings(
     spaceInsideHashAttributesStyle: "space",
     finalNewlineEnabled: true,
     finalNewlinePresent: true,
+    rubyCommentsEnabled: true,
   };
 
   if (!workspaceFolder) {
@@ -55,6 +57,7 @@ async function getLinterSettings(
     defaults.spaceBeforeScriptEnabled = isLinterEnabled(configContent, "SpaceBeforeScript");
     defaults.spaceInsideHashAttributesEnabled = isLinterEnabled(configContent, "SpaceInsideHashAttributes");
     defaults.finalNewlineEnabled = isLinterEnabled(configContent, "FinalNewline");
+    defaults.rubyCommentsEnabled = isLinterEnabled(configContent, "RubyComments");
 
     // Parse FinalNewline present setting
     const finalNewlineMatch = configContent.match(
@@ -216,38 +219,58 @@ function fixHashOpening(afterBrace: string, style: "space" | "no_space"): string
 }
 
 /**
- * Ensures exactly one space between script operators and code.
+ * Handles spacing for script operators and Ruby comments.
  * 
- * HAML script operators: =, !=, &=, ~, -
- * Each should be followed by exactly one space before the code.
+ * SpaceBeforeScript rule:
+ *   HAML script operators (=, !=, &=, ~, -) should be followed by exactly one space.
+ * 
+ * RubyComments rule:
+ *   Use `-#` for comments instead of `- #` (no space before #).
  */
-function autocorrectSpaceBeforeScript(content: string): string {
+function autocorrectSpaceBeforeScript(
+  content: string,
+  spaceBeforeScriptEnabled: boolean,
+  rubyCommentsEnabled: boolean
+): string {
   const lines = content.split("\n");
   const result: string[] = [];
 
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i];
     
-    // Match lines starting with script operators: =, !=, &=, ~, -
-    // [!&]?=(?!=) matches =, !=, &= but not ==
-    // The pattern matches: optional whitespace, operator, spaces, rest of line
-    const match = line.match(/^(\s*)([!&]?=(?!=)|~|-)(\s*)(.*)$/);
-    
-    if (match) {
-      const leadingWhitespace = match[1];
-      const operator = match[2];
-      const spacesAfter = match[3];
-      const code = match[4];
-      
-      // If there's actual code after the operator, ensure exactly one space
-      // Otherwise preserve the line (handles blank lines with just operators)
-      if (code.trim().length > 0) {
-        line = leadingWhitespace + operator + " " + code;
-      } else if (code.length === 0 && spacesAfter.length > 0) {
-        // Line ends with operator + whitespace but no code - remove trailing space
-        line = leadingWhitespace + operator;
+    // Check if this is a Ruby comment line (- followed by optional space and #)
+    const commentMatch = line.match(/^(\s*)-(\s*)#(.*)$/);
+    if (commentMatch) {
+      // This is a comment line - apply RubyComments rule
+      if (rubyCommentsEnabled) {
+        // Ensure NO space between - and # (rule: use -# not - #)
+        const leadingWhitespace = commentMatch[1];
+        const commentContent = commentMatch[3];
+        line = leadingWhitespace + "-#" + commentContent;
       }
-      // else: line is just whitespace + operator, leave as-is
+      // If rubyCommentsEnabled is false, leave unchanged
+    } else if (spaceBeforeScriptEnabled) {
+      // Not a comment line - apply SpaceBeforeScript rule
+      // Match lines starting with script operators: =, !=, &=, ~, -
+      // [!&]?=(?!=) matches =, !=, &= but not ==
+      const match = line.match(/^(\s*)([!&]?=(?!=)|~|-)(\s*)(.*)$/);
+      
+      if (match) {
+        const leadingWhitespace = match[1];
+        const operator = match[2];
+        const spacesAfter = match[3];
+        const code = match[4];
+        
+        // If there's actual code after the operator, ensure exactly one space
+        // Otherwise preserve the line (handles blank lines with just operators)
+        if (code.trim().length > 0) {
+          line = leadingWhitespace + operator + " " + code;
+        } else if (code.length === 0 && spacesAfter.length > 0) {
+          // Line ends with operator + whitespace but no code - remove trailing space
+          line = leadingWhitespace + operator;
+        }
+        // else: line is just whitespace + operator, leave as-is
+      }
     }
     
     result.push(line);
@@ -276,8 +299,12 @@ export async function applyAutocorrections(
   if (settings.trailingWhitespaceEnabled) {
     result = autocorrectTrailingWhitespace(result);
   }
-  if (settings.spaceBeforeScriptEnabled) {
-    result = autocorrectSpaceBeforeScript(result);
+  if (settings.spaceBeforeScriptEnabled || settings.rubyCommentsEnabled) {
+    result = autocorrectSpaceBeforeScript(
+      result,
+      settings.spaceBeforeScriptEnabled,
+      settings.rubyCommentsEnabled
+    );
   }
   if (settings.spaceInsideHashAttributesEnabled) {
     result = autocorrectSpaceInsideHashAttributes(result, settings.spaceInsideHashAttributesStyle);
