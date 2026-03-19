@@ -18,6 +18,59 @@ import {
 
 let diagnosticsTimeout: NodeJS.Timeout | undefined;
 
+const FIRST_RUN_PROMPT_KEY = "hamlHero.hasShownFirstRunPrompt";
+
+const RECOMMENDED_DISABLED_LINTERS = [
+  "ViewLength",
+  "LineLength",
+  "InlineStyles"
+];
+
+const RECOMMENDED_DISABLED_RUBOCOP_RULES = [
+  "Style/IfUnlessModifier",
+  "Style/StringLiterals"
+];
+
+async function showFirstRunPromptIfNeeded(context: vscode.ExtensionContext): Promise<void> {
+  const hasShownPrompt = context.globalState.get<boolean>(FIRST_RUN_PROMPT_KEY);
+  
+  if (hasShownPrompt) {
+    return;
+  }
+
+  const response = await vscode.window.showInformationMessage(
+    "Welcome to HAML Hero! Would you like to disable some commonly ignored linter rules? You can always change this later in settings.",
+    "Yes",
+    "No",
+    "Show me the rules"
+  );
+
+  if (response === "Yes") {
+    const config = vscode.workspace.getConfiguration("hamlHero");
+    await config.update("globallyDisabledLinters", RECOMMENDED_DISABLED_LINTERS, vscode.ConfigurationTarget.Global);
+    await config.update("disabledRubocopRules", RECOMMENDED_DISABLED_RUBOCOP_RULES, vscode.ConfigurationTarget.Global);
+    vscode.window.showInformationMessage("HAML Hero: Disabled recommended linter rules. You can adjust these in Settings > HAML Hero.");
+  } else if (response === "Show me the rules") {
+    const rulesMessage = `HAML-Lint rules to disable:\n• ${RECOMMENDED_DISABLED_LINTERS.join("\n• ")}\n\nRuboCop rules to disable:\n• ${RECOMMENDED_DISABLED_RUBOCOP_RULES.join("\n• ")}`;
+    const detailResponse = await vscode.window.showInformationMessage(
+      rulesMessage,
+      { modal: true },
+      "Disable these rules",
+      "Keep all rules"
+    );
+    
+    if (detailResponse === "Disable these rules") {
+      const config = vscode.workspace.getConfiguration("hamlHero");
+      await config.update("globallyDisabledLinters", RECOMMENDED_DISABLED_LINTERS, vscode.ConfigurationTarget.Global);
+      await config.update("disabledRubocopRules", RECOMMENDED_DISABLED_RUBOCOP_RULES, vscode.ConfigurationTarget.Global);
+      vscode.window.showInformationMessage("HAML Hero: Disabled recommended linter rules. You can adjust these in Settings > HAML Hero.");
+    }
+  }
+
+  // Mark prompt as shown regardless of response
+  await context.globalState.update(FIRST_RUN_PROMPT_KEY, true);
+}
+
 export function activate(context: vscode.ExtensionContext) {
   // Pass extension context to modules
   setFormatterContext(context);
@@ -26,6 +79,9 @@ export function activate(context: vscode.ExtensionContext) {
   
   // Set callback for config regeneration
   setRegenerateConfigCallback(regenerateHamlLintConfig);
+
+  // Show first-run prompt if this is the first time opening a HAML file
+  showFirstRunPromptIfNeeded(context);
 
   // Register code action provider for quick fixes
   context.subscriptions.push(
