@@ -357,7 +357,7 @@ export async function disableRubocopRuleGlobally(
   ruleName: string
 ): Promise<void> {
   const config = vscode.workspace.getConfiguration("hamlHero");
-  const currentDisabled = config.get<string[]>("disabledRubocopRules", []);
+  const currentDisabled = config.get<string[]>("globallyDisabledRubocopRules", []);
   
   if (currentDisabled.includes(ruleName)) {
     vscode.window.showInformationMessage(
@@ -370,7 +370,7 @@ export async function disableRubocopRuleGlobally(
   
   try {
     // Update at user level (global)
-    await config.update("disabledRubocopRules", updatedDisabled, vscode.ConfigurationTarget.Global);
+    await config.update("globallyDisabledRubocopRules", updatedDisabled, vscode.ConfigurationTarget.Global);
     
     vscode.window.showInformationMessage(
       `Disabled RuboCop '${ruleName}' globally in VS Code settings`

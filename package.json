@@ -88,7 +88,7 @@
             "Only apply safe auto-corrections (--auto-correct)",
             "Apply all auto-corrections, including potentially unsafe ones (--auto-correct-all)"
           ],
-          "description": "Determines which auto-corrections to apply when formatting"
+          "description": "Determines which rubocop auto-corrections to apply when formatting"
         },
         "hamlHero.additionalLinterArguments": {
           "type": "string",
@@ -118,7 +118,7 @@
           "default": [],
           "description": "List of haml-lint rules to disable globally across all projects. Use the quick fix menu on a diagnostic to add rules here."
         },
-        "hamlHero.disabledRubocopRules": {
+        "hamlHero.globallyDisabledRubocopRules": {
           "type": "array",
           "items": {
             "type": "string"

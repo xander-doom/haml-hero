@@ -48,7 +48,7 @@ async function showFirstRunPromptIfNeeded(context: vscode.ExtensionContext): Pro
   if (response === "Yes") {
     const config = vscode.workspace.getConfiguration("hamlHero");
     await config.update("globallyDisabledLinters", RECOMMENDED_DISABLED_LINTERS, vscode.ConfigurationTarget.Global);
-    await config.update("disabledRubocopRules", RECOMMENDED_DISABLED_RUBOCOP_RULES, vscode.ConfigurationTarget.Global);
+    await config.update("globallyDisabledRubocopRules", RECOMMENDED_DISABLED_RUBOCOP_RULES, vscode.ConfigurationTarget.Global);
     vscode.window.showInformationMessage("HAML Hero: Disabled recommended linter rules. You can adjust these in Settings > HAML Hero.");
   } else if (response === "Show me the rules") {
     const rulesMessage = `HAML-Lint rules to disable:\n• ${RECOMMENDED_DISABLED_LINTERS.join("\n• ")}\n\nRuboCop rules to disable:\n• ${RECOMMENDED_DISABLED_RUBOCOP_RULES.join("\n• ")}`;
@@ -62,7 +62,7 @@ async function showFirstRunPromptIfNeeded(context: vscode.ExtensionContext): Pro
     if (detailResponse === "Disable these rules") {
       const config = vscode.workspace.getConfiguration("hamlHero");
       await config.update("globallyDisabledLinters", RECOMMENDED_DISABLED_LINTERS, vscode.ConfigurationTarget.Global);
-      await config.update("disabledRubocopRules", RECOMMENDED_DISABLED_RUBOCOP_RULES, vscode.ConfigurationTarget.Global);
+      await config.update("globallyDisabledRubocopRules", RECOMMENDED_DISABLED_RUBOCOP_RULES, vscode.ConfigurationTarget.Global);
       vscode.window.showInformationMessage("HAML Hero: Disabled recommended linter rules. You can adjust these in Settings > HAML Hero.");
     }
   }

@@ -116,16 +116,16 @@ function extractIgnoredCops(configContent: string): string[] {
  * Returns null if no global rules are configured (lets haml-lint auto-find project config).
  */
 async function generateGlobalRulesConfig(projectConfigPath: string | null): Promise<string | null> {
-  const { disabledRubocopRules } = getHamlLintConfig();
+  const { globallyDisabledRubocopRules } = getHamlLintConfig();
   
   // If no global rules configured, don't generate a config
   // Let haml-lint auto-find the project config
-  if (disabledRubocopRules.length === 0) {
+  if (globallyDisabledRubocopRules.length === 0) {
     return null;
   }
   
   // Start with global rules from VS Code settings
-  const allIgnoredCops = new Set<string>(disabledRubocopRules);
+  const allIgnoredCops = new Set<string>(globallyDisabledRubocopRules);
   
   // If there's a project config, read it and merge its ignored_cops
   // (since inherits_from won't merge arrays, we have to do it manually)
@@ -280,7 +280,7 @@ export function getHamlLintConfig() {
     additionalFormatterArguments: config.get<string>("additionalFormatterArguments", ""),
     formatInBackground: config.get<boolean>("formatInBackground", true),
     globallyDisabledLinters: config.get<string[]>("globallyDisabledLinters", []),
-    disabledRubocopRules: config.get<string[]>("disabledRubocopRules", []),
+    globallyDisabledRubocopRules: config.get<string[]>("globallyDisabledRubocopRules", []),
   };
 }
 
