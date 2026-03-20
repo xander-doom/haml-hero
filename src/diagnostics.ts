@@ -117,8 +117,18 @@ export async function updateDiagnostics(document: vscode.TextDocument): Promise<
         errorMessage.includes("not found") ||
         error.code === "ENOENT") {
       vscode.window.showErrorMessage(
-        `haml-lint not found. Please install it with 'gem install haml_lint' or configure the path in settings (hamlHero.linterPath).`
-      );
+        `haml-lint not found. Please install it with 'gem install haml_lint' or configure the path in settings (hamlHero.linterPath).`,
+        "Disable linting"
+      ).then(async (selection) => {
+        if (selection === "Disable linting") {
+          const config = vscode.workspace.getConfiguration("hamlHero");
+          await config.update("enableDiagnostics", false, vscode.ConfigurationTarget.Global);
+          await config.update("enableFormatting", false, vscode.ConfigurationTarget.Global);
+          vscode.window.showInformationMessage(
+            "HAML linting and formatting have been disabled"
+          );
+        }
+      });
     } else if (errorMessage.includes("No version is set for command") || 
                errorMessage.includes("tool-versions") ||
                errorMessage.includes("ruby-version")) {
