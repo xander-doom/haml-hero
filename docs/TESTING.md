@@ -192,43 +192,6 @@ For major changes, compare before and after:
 5. Compare highlighting to screenshots
 6. Verify no unintended changes
 
-## Common Issues
-
-### Grammar Not Loading
-
-- Check JSON syntax: `npm run compile` or use a JSON validator
-- Verify `package.json` points to correct grammar file
-- Reload Extension Development Host (`Cmd+R` or `Ctrl+R`)
-
-### Patterns Not Matching
-
-- Test regex at [regex101.com](https://regex101.com/)
-- Remember to escape special characters: `{` → `\\{`
-- Use non-capturing groups `(?:...)` when you don't need captures
-- Check for missing or extra backslashes
-
-### Ruby Highlighting Not Working
-
-- Verify `source.ruby` is included in the pattern
-- Check that VS Code has Ruby language support installed
-- Ensure the pattern's `end` boundary is correct
-
-### Filter Languages Not Highlighting
-
-- Verify VS Code has language support for the embedded language
-- Check that the filter name matches exactly (`:javascript`, not `:js`)
-- Ensure proper include: `"include": "source.js"`
-
-## Performance Testing
-
-For large files:
-
-1. Create a test file with 1000+ lines of HAML
-2. Open in VS Code
-3. Verify highlighting appears quickly (< 1 second)
-4. Check for lag when typing
-5. Profile if needed using VS Code's performance tools
-
 ## Reporting Issues
 
 When reporting grammar issues:
@@ -238,16 +201,6 @@ When reporting grammar issues:
 3. Expected behavior description
 4. VS Code version and extension version
 5. Theme being used (some themes may not support all scopes)
-
-## Continuous Testing
-
-When making changes:
-
-1. ✅ Run `npm run compile` - Ensure no TypeScript errors
-2. ✅ Run `npm run test:grammar` - Ensure no grammar regressions
-3. ✅ Open test fixtures manually - Visual verification
-4. ✅ Test in Extension Development Host - Real-world usage
-5. ✅ Check edge cases - Unusual syntax combinations
 
 ## Resources
 

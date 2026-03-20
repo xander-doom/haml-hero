@@ -7,13 +7,17 @@ Comprehensive HAML support for Visual Studio Code with advanced syntax highlight
 ## Features
 
 - **🎨 Enhanced Syntax Highlighting**: Comprehensive syntax highlighting for all HAML features, including multi-line ruby and hash attributes
-- **✨ Auto-Formatting**: Format HAML files on save (powered by [`haml-lint`](https://github.com/sds/haml-lint))
+- **✨ Auto-Formatting***: Format HAML files on save (powered by [`haml-lint`](https://github.com/sds/haml-lint))
 - **🔍 Real-time Diagnostics**: Live linting feedback with warnings and errors as you type (powered by [`haml-lint`](https://github.com/sds/haml-lint))
-- **⚙️ Highly Configurable**: Customize linter path, formatter mode, and additional arguments
+- **⚙️ Highly Configurable**: Customize active linters based on project config or personal preference
+
+\* Auto-formatting can be skipped via VSCode's Command Palette (`Cmd+Shift+P`) -> `File: Save Without Formatting`, or the `Cmd+K, S` chord.
 
 ## Requirements
 
-For auto-formatting and linting, you need to install [haml-lint](https://github.com/sds/haml-lint):
+For auto-formatting and linting, you need to install [haml-lint](https://github.com/sds/haml-lint)
+
+If you only want syntax highlighting, disable formatting and linting in the settings.
 
 ### Project-Level Installation (Recommended)
 
@@ -33,12 +37,14 @@ bundle install
 
 ### Global Installation
 
-
+If you wish to avoid adding a gem to your project, you can install the gem globally
+Warning: A global installation will be pinned to a specific version of Ruby that may not match your project
 ```bash
 gem install haml_lint
 ```
-Warning: A global installation will be pinned to a specific version of Ruby that may not match your project
 
+#### The rest of this document is for configuration and is not required to run the extension
+### Enjoy! 
 ## VS Code Settings
 
 Auto-formatting is enabled under default vscode settings, but if you have another linter installed (like Prettier) you may need to add these settings to your [settings.json file](https://code.visualstudio.com/docs/configure/settings#_user-settings:~:text=Select%20the%20Preferences%3A%20Open%20User%20Settings%20%28JSON%29%20command%20in%20the%20Command%20Palette) to enable HAML formatting.
@@ -68,7 +74,7 @@ This extension has the following settings:
 - `hamlHero.linterPath`: Full path to the haml-lint executable (default: `"haml-lint"`)
   - For global installation: leave as `"haml-lint"`
   - For Bundler: use `"bundle exec haml-lint"` or full path to bundle
-- `hamlHero.configPath`: Path to a custom .haml-lint.yml config file
+- `hamlHero.configPath`: Path to a custom `.haml-lint.yml` config file
   - If not specified, checks workspace root for `.haml-lint.yml`
   - If no config file is found, haml-lint uses its built-in defaults
   - Supports `~` for home directory and relative paths from workspace root
@@ -80,7 +86,7 @@ This extension has the following settings:
   - Overrides local workspace .haml-lint
   - Use the Quick Fix menu on any diagnostic to add rules here
   - Example: `["IdNames", "LineLength", "ClassesBeforeIds"]`
-- `hamlHero.disabledRubocopRules`: List of RuboCop cops to disable globally when linting Ruby code in HAML templates (default: `[]`)
+- `hamlHero.globallyDisabledRubocopRules`: List of RuboCop cops to disable globally when linting Ruby code in HAML templates (default: `[]`)
   - Cop names should be in format `Namespace/CopName` (e.g., `Style/StringLiterals`, `Lint/EmptyLine`)
   - Use the Quick Fix menu on any RuboCop diagnostic to add rules here
   - These are merged with project-level `.rubocop.yml` settings
@@ -104,7 +110,7 @@ This extension has the following settings:
 
 ### Built-in Autocorrections
 
-In addition to haml-lint's auto-corrections, HAML Hero applies several automatic corrections that haml-lint cannot handle:
+In addition to haml-lint's auto-corrections, HAML Hero applies several automatic corrections that haml-lint doesn't handle:
 
 - **TrailingWhitespace**: Removes trailing spaces and tabs from all lines
 - **FinalNewline**: Ensures files end with exactly one newline (or no newline if configured as `present: false` in `.haml-lint.yml`)
@@ -112,33 +118,25 @@ In addition to haml-lint's auto-corrections, HAML Hero applies several automatic
   - `space` style (default): `%tag{ key: value }`
   - `no_space` style: `%tag{key: value}`
   - Reads configuration from the `SpaceInsideHashAttributes` linter settings in `.haml-lint.yml`
+- **SpaceBeforeScript**: Ensures there is a space before ruby code lines, e.g. `- if foo`
+- **RubyComments** Ensures there is NOT a space before comments, e.g. `-# bar`
 
-These corrections run automatically after haml-lint's formatting and are included in both sync and background formatting modes.
-
-### Example Configuration
-
-```json
-{
-  "hamlHero.linterPath": "bundle exec haml-lint",
-  "hamlHero.formatterMode": "all",
-  "hamlHero.configPath": "config/.haml-lint.yml",
-  "hamlHero.additionalFormatterArguments": "--parallel"
-}
-```
+These corrections run automatically after haml-lint's formatting and are included in both sync and background formatting modes. To disable a specific autocorrect rule, disable it's respective linter.
 
 ### Configuring haml-lint Rules
 
 **Option 1: Use workspace config** (recommended for team projects)  
-Create `.haml-lint.yml` in your project root. This will automatically be used.
+Create `.haml-lint.yml` in your project root. This ensures consistent code across all uses of haml-lint, including command line and CI actions.
 
 **Option 2: Use custom config location**  
 Set `hamlHero.configPath` to point to your config file. This can be configured per-workspace, so if you don't want your config in the same folder as your project, or if you want to share a config across projects, use this.
 
-If no config file is found, haml-lint will use its built-in defaults.
-
 ### Disabling Linter Rules
 
+![Example of VSCode Quick Fix menu](image.png)
+
 When you hover over a linting diagnostic, you can use the Quick Fix menu (lightbulb icon or `Cmd+.`) to:
+
 
 - **Disable in this project**: Adds the rule to your project's `.haml-lint.yml` file
 - **Disable globally**: Adds the rule to your VS Code user settings (`hamlHero.globallyDisabledLinters`), applying to all projects. This overrides any local config
@@ -176,7 +174,7 @@ HAML-lint integrates with RuboCop to lint the Ruby code embedded in your HAML te
 When you hover over a RuboCop diagnostic, use the Quick Fix menu (lightbulb icon or `Cmd+.`) to:
 
 - **Disable RuboCop rule in this project**: Creates or updates `.rubocop.yml` in your project root with the disabled rule
-- **Disable RuboCop rule globally**: Adds the rule to your VS Code user settings (`hamlHero.disabledRubocopRules`), applying to all projects
+- **Disable RuboCop rule globally**: Adds the rule to your VS Code user settings (`hamlHero.globallyDisabledRubocopRules`), applying to all projects
 
 #### How RuboCop Config is Resolved
 
@@ -184,7 +182,7 @@ The extension uses the following strategy to apply RuboCop rules:
 
 1. **Local `.rubocop.yml`**: If your project has a `.rubocop.yml` file, it is automatically detected and used by haml-lint. This is the standard way to configure RuboCop, and strongly preferred if you already use rubocop for your project.
 
-2. **Global VS Code settings**: Rules added via `hamlHero.disabledRubocopRules` are merged with your local config. This allows you to maintain both project-specific and global RuboCop settings.
+2. **Global VS Code settings**: Rules added via `hamlHero.globallyDisabledRubocopRules` are merged with your local config. This allows you to maintain both project-specific and global RuboCop settings.
 
 #### Configuration Examples
 
@@ -199,7 +197,7 @@ Lint/EmptyLine:
 **Global VS Code settings** (automatically generated haml-lint config):
 ```json
 {
-  "hamlHero.disabledRubocopRules": ["Style/DoubleNegation", "Metrics/LineLength"]
+  "hamlHero.globallyDisabledRubocopRules": ["Style/DoubleNegation", "Metrics/LineLength"]
 }
 ```
 
@@ -211,7 +209,7 @@ Linter warnings and errors highlight the entire line instead of just the offendi
 
 `Format Document` saves document when `formatInBackground` is `true`. It's more common in other linters for `Format Document` to format without saving. It's surprisingly difficult to determine whether formatting was triggered via command or on save. This is a low priority and probably won't be fixed. If this is an issue for you, disable `formatInBackground`.
 
-Filter blocks (:ruby, :markdown) may not terminate correctly if there is trailing whitespace on the line after the end of the block.
+Filter blocks (`:ruby`, `:markdown`) may not terminate correctly if there is trailing whitespace on the line after the end of the block.
 
 Please add additional issues or feature requests to the [GitHub repository](https://github.com/xander-doom/haml-hero).
 
@@ -221,8 +219,6 @@ Please add additional issues or feature requests to the [GitHub repository](http
 1. Install `node`/`npm`
 2. Run `npm install`
 3. Press `F5` to open an extension development host
-4. After any changes to TypeScript files run `npm run compile` and type `Cmd+r` in the extension development host to reload.
+4. After any changes to TypeScript files run `npm run compile` and type `Cmd+R` in the extension development host to reload.
 
 See [docs/TESTING.md](docs/TESTING.md) for details on syntax testing.
-
-**Enjoy!**
