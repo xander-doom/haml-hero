@@ -1,5 +1,3 @@
-# Change Log
+# Changelog
 
-All notable changes to the "haml-hero" extension will be documented in this file.
-
-## [Unreleased]
+## [1.0.0] Initial release
