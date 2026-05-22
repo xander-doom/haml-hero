@@ -59,6 +59,12 @@ Auto-formatting is enabled under default vscode settings, but if you have anothe
 }
 ```
 
+## Commands
+
+The following commands are available in the Command Palette (`Cmd+Shift+P`):
+
+- **HAML Hero: Toggle Format On Save** — Toggles `editor.formatOnSave` for HAML files in your global user settings. Useful for quickly enabling or disabling auto-formatting without opening the settings editor.
+
 ## Extension Settings
 
 This extension has the following settings:

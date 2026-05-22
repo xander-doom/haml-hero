@@ -124,6 +124,18 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
+  // Register command to toggle editor.formatOnSave for HAML files
+  context.subscriptions.push(
+    vscode.commands.registerCommand("hamlHero.toggleFormatOnSave", async () => {
+      const config = vscode.workspace.getConfiguration("editor", { languageId: "haml" });
+      const current = config.get<boolean>("formatOnSave") ?? false;
+      await config.update("formatOnSave", !current, vscode.ConfigurationTarget.Global, true);
+      vscode.window.showInformationMessage(
+        `HAML Hero: Format On Save ${!current ? "enabled" : "disabled"} for HAML files.`
+      );
+    })
+  );
+
   // Register command to refresh diagnostics
   context.subscriptions.push(
     vscode.commands.registerCommand(
