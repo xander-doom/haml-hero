@@ -133,6 +133,10 @@
       {
         "command": "hamlHero.refreshDiagnostics",
         "title": "HAML Hero: Refresh Diagnostics"
+      },
+      {
+        "command": "hamlHero.toggleFormatOnSave",
+        "title": "HAML Hero: Toggle Format On Save"
       }
     ]
   },
