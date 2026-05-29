@@ -123,8 +123,7 @@
           "items": {
             "type": "string"
           },
-          "default": [
-          ],
+          "default": [],
           "description": "RuboCop cops to ignore when linting Ruby code in HAML templates. Cop names should be in the format Namespace/CopName (e.g., Style/StringLiterals). The extension generates a temporary .haml-lint.yml config with these cops in the ignored_cops list."
         }
       }
@@ -143,7 +142,7 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "publish": "vsce publish && npx ovsx publish",
-    "compile": "tsc -p ./",
+    "compile": "npm install --package-lock-only --ignore-scripts && tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
