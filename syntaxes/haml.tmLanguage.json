@@ -370,7 +370,7 @@
 				{
 					"comment": "Implicit div with class/id and multi-line Ruby (has = and ends with comma)",
 					"name": "meta.tag.haml",
-					"begin": "^(\\s*)((?:[.#][\\w-]+)+)(?=.*=.*,$)",
+					"begin": "^(\\s*)((?:[.#][\\w:-]+)+)(?=.*=.*,$)",
 					"end": "^(?!\\1\\s+\\S)",
 					"beginCaptures": {
 						"1": {
@@ -379,7 +379,7 @@
 						"2": {
 							"patterns": [
 								{
-									"match": "\\.[\\w-]+",
+									"match": "\\.[\\w:-]+",
 									"name": "entity.name.tag.haml"
 								},
 								{
@@ -451,7 +451,7 @@
 					"include": "#element-attributes-ruby"
 				},
 				{
-					"match": "\\.[\\w-]+",
+					"match": "\\.[\\w:-]+",
 					"name": "entity.name.tag.haml"
 				},
 				{

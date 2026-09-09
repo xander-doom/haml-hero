@@ -111,3 +111,27 @@
 #             ^^^^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
 #                                   ^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
 >
+>  -# Tailwind classes with responsive/state variant colons
+#^^ text.haml comment.line.haml punctuation.whitespace.comment.leading.haml
+#  ^^ text.haml comment.line.haml punctuation.definition.comment.haml
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.haml comment.line.haml
+>  %aside.lg:col-span-1
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#        ^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  .md:flex.items-center
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#          ^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  .hover:bg-blue-500.focus:outline-none
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                    ^^^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>  %div.dark:bg-gray-800.dark:text-white
+#^^ text.haml meta.tag.haml punctuation.whitespace.tag.leading.haml
+#  ^ text.haml meta.tag.haml punctuation.definition.tag.haml
+#   ^^^ text.haml meta.tag.haml entity.name.tag.haml
+#      ^^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+#                       ^^^^^^^^^^^^^^^^ text.haml meta.tag.haml entity.name.tag.haml
+>
